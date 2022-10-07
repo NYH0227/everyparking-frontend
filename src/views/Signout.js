@@ -12,7 +12,7 @@ const Signout = () => {
     localStorage.removeItem("jwt")
     //DefaultLayout.forceUpdate()
     //
-    window.location.href = "http://localhost:3000/"
+    window.location.href = CLIENT_PATH
     history("/")
 
     return "1234"

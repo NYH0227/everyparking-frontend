@@ -1,4 +1,4 @@
-import ParkingService from "../service/ParkingService";
+import ParkingService, { CLIENT_PATH } from "../service/ParkingService";
 import {useState} from "react";
 import React from 'react'
 
@@ -34,7 +34,7 @@ function SignIn() {
                 setPassword("")
 
                 Swal.fire(res.data.message,"","success")
-                window.location.href = "http://localhost:3000/"
+                window.location.href = CLIENT_PATH
                 history("/dashboard")
                 }
             )
@@ -70,7 +70,7 @@ function SignIn() {
                   <CFormFeedback invalid>비밀번호를 입력해주세요</CFormFeedback>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-2">
                   <CButton color="primary" onClick={handleLoginOnClick}>
                     로그인
                   </CButton>

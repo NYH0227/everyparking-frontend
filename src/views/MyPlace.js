@@ -25,6 +25,7 @@ const MyPlace = () => {
 
   const [x_pos,setX] = useState(0.0)
   const [y_pos,setY] = useState(0.0)
+  const [imgUrl, setImgUrl] = useState("")
   const [text,setText] = useState()
 
 
@@ -67,10 +68,30 @@ const MyPlace = () => {
     });
   }, [input]);
 
-  const handleAddPlace = () => {
-    ParkingService.postAddPlace(mapAddr,x_pos,y_pos,message,placeName)
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-right',
+    iconColor: 'white',
+    customClass: {
+      popup: 'colored-toast'
+    },
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true
+  })
+
+   const handleAddPlace = async () => {
+
+    await Toast.fire({
+       imageUrl: imgUrl === "" ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==" : imgUrl,
+       imageWidth : 400,
+       imageHeight : 200,
+     })
+
+
+
+    ParkingService.postAddPlace(mapAddr,x_pos,y_pos,message,placeName,imgUrl)
       .then((res) => {
-        console.log(mapAddr)
         console.log(res.data)
         Swal.fire(res.data.message,"","success")
 
@@ -89,22 +110,20 @@ const MyPlace = () => {
             <strong>내 주차공간 등록</strong>
           </CCardHeader>
           <CCardBody>
-            <CFormLabel htmlFor="validationTextarea" className="form-label">
-              주소
-            </CFormLabel>
-
             <>
-              <div id='myMap' style={{
-                width: '100%',
-                height: '300px',
-                margin: 'auto'
+              <div id="myMap" style={{
+                width: "100%",
+                height: "300px",
+                margin: "auto"
               }}></div>
-              <br/>
+              <br />
               <CInputGroup className="mb-3">
-                <CButton type="button" color="dark" onClick={() => setInput(text)} variant="outline" id="button-addon1">주소검색</CButton>
-                <CFormInput placeholder="무네미로 448번길" value={text} onChange={(e) => setText(e.target.value)} aria-label="Example text with button addon" aria-describedby="button-addon1"/>
+                <CButton type="button" color="dark" onClick={() => setInput(text)} variant="outline"
+                         id="button-addon1">주소검색</CButton>
+                <CFormInput placeholder="무네미로 448번길" value={text} onChange={(e) => setText(e.target.value)}
+                            aria-label="Example text with button addon" aria-describedby="button-addon1" />
               </CInputGroup>
-              <br/>
+              <br />
             </>
 
             <CForm validated={true}>
@@ -117,21 +136,31 @@ const MyPlace = () => {
               </div>
 
               <div className="mb-3">
+                <CFormInput id="floatingTextarea" className="mb-4"
+                            placeholder="세부주소" value={message}
+                            onChange={(e) => setMessage(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>세부주소를 입력해주세요</CFormFeedback>
+              </div>
+
+
+              <div className="mb-3">
                 <CFormLabel htmlFor="validationTextarea" className="form-label">
                   별칭
                 </CFormLabel>
-                <CFormInput placeholder="우리집" type="text" value={placeName} onChange={(e) => setPlaceName(e.target.value)}  ></CFormInput>
+                <CFormInput placeholder="우리집" type="text" value={placeName}
+                            onChange={(e) => setPlaceName(e.target.value)}></CFormInput>
                 <CFormFeedback invalid>별칭을 입력해주세요</CFormFeedback>
               </div>
 
               <div className="mb-3">
                 <CFormLabel htmlFor="validationTextarea" className="form-label">
-                  주의사항
+                  이미지 주소
                 </CFormLabel>
-                <CFormTextarea id="floatingTextarea"
-                               placeholder="comment" value={message} onChange={(e) => setMessage(e.target.value)} ></CFormTextarea>
-                <CFormFeedback invalid>주의사항을 남겨주세요</CFormFeedback>
+                <CFormInput placeholder="이미지 주소" type="text" value={imgUrl}
+                            onChange={(e) => setImgUrl(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>이미지 주소를 입력해주세요</CFormFeedback>
               </div>
+
 
               <div className="mb-3">
                 <CButton color="primary" onClick={handleAddPlace}>
@@ -143,7 +172,7 @@ const MyPlace = () => {
         </CCard>
       </CCol>
     </CRow>
-  )
+  );
 }
 
 export default MyPlace;

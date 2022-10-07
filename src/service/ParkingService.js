@@ -2,10 +2,23 @@ import axios from "axios";
 
 //export const SERVER_PATH = "http://localhost:7777"
 export const SERVER_PATH = "http://192.168.131.181:7777"
-export const CLIENT_PATH = "http://192.168.241.181:3000"
+export const CLIENT_PATH = "http://192.168.131.38:3000"
+
 
 
 class ParkingService {
+
+    addHeader(method,path,data){
+      return axios({
+        method: method,
+        url: SERVER_PATH + path,
+        headers: {
+          'Authorization': localStorage.getItem("jwt").toString(),
+          'Content-Type': 'application/json'
+        },
+        data : data
+      })
+    }
 
     /** 도시 리스트 받아오기 */
     getCities(){
@@ -21,40 +34,32 @@ class ParkingService {
     getPlaces() {
       return axios.get(SERVER_PATH + "/api/place")
     }
+
+
     /** 개인이 들고있는 장소 조회하기 */
+    getMyPlaces(){
+      return this.addHeader("get","/api/parking")
+    }
 
 
     /** 차 등록 */
     postAddCar(carNumber, carModel,carSize){
-      console.log(carSize)
-       return axios.post(SERVER_PATH + "/api/car", {
-         "carModel" : carModel,
-         "carNumber" : carNumber,
-         "size" : carSize
-       },{
-         headers :{
-           'Authorization' : localStorage.getItem("jwt").toString(),
-           'Content-Type': 'application/json'
-         }
-       })
+      return this.addHeader("post","/api/car",{
+        "carModel" : carModel,
+        "carNumber" : carNumber,
+        "size" : carSize
+      })
     }
 
     /** 장소 등록 */
-    postAddPlace(mapAddr,x_pos,y_pos,message,placeName){
-      // 현재 검색한 주소를 가지고 도로명 주소로 변환하기
-      // 도로명 주소를 mapAddr에 넣은 후 서버로 통신하면 성공.
-
-      return axios.post(SERVER_PATH + "/api/place", {
+    postAddPlace(mapAddr,x_pos,y_pos,message,placeName,imgUrl){
+      return this.addHeader("post","/api/place",{
         "mapAddr": mapAddr,
         "mapX": x_pos,
         "mapY": y_pos,
         "message": message,
-        "placeName": placeName
-      },{
-        headers :{
-          'Authorization' : localStorage.getItem("jwt").toString(),
-          'Content-Type': 'application/json'
-        }
+        "placeName": placeName,
+        "imgUrl" : imgUrl === "" ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==" : imgUrl
       })
     }
 

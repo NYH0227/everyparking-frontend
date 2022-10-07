@@ -10,7 +10,7 @@ const MapShowList = (places) => {
     const container = document.getElementById('myMap');
     const options = {
       center: new kakao.maps.LatLng(33.450705, 126.570677),
-      level: 20
+      level: 4
     };
     const map = new kakao.maps.Map(container, options);
 
