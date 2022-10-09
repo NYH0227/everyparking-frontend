@@ -35,24 +35,6 @@ const Borrow = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      {/*{places.map((data) =>*/}
-      {/*  <CCol xs={12}>*/}
-      {/*    <CCard className="mb-4">*/}
-      {/*      <CCardHeader>*/}
-      {/*        <strong>React Borrow</strong> <small>Default</small>*/}
-      {/*      </CCardHeader>*/}
-      {/*      <CCardBody>*/}
-      {/*        <CListGroup>*/}
-      {/*          <CListGroupItem>Cras justo odio</CListGroupItem>*/}
-      {/*          <CListGroupItem>Dapibus ac facilisis in</CListGroupItem>*/}
-      {/*          <CListGroupItem>Morbi leo risus</CListGroupItem>*/}
-      {/*          <CListGroupItem>Porta ac consectetur ac</CListGroupItem>*/}
-      {/*          <CListGroupItem>Vestibulum at eros</CListGroupItem>*/}
-      {/*        </CListGroup>*/}
-      {/*      </CCardBody>*/}
-      {/*    </CCard>*/}
-      {/*  </CCol>*/}
-      {/*)}*/}
 
     </CRow>
   );

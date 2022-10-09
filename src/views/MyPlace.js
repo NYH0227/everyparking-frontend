@@ -9,7 +9,7 @@ import {
   CFormInput,
   CFormFeedback,
   CFormLabel,
-  CRow, CFormTextarea, CInputGroup
+  CRow, CInputGroup
 } from "@coreui/react";
 import ParkingService from "../service/ParkingService";
 import Swal from "sweetalert2";
@@ -60,7 +60,7 @@ const MyPlace = () => {
           position: coords
         });
 
-        map.setCenter(coords);
+        map.setCenter(coords,marker);
 
       }
     });

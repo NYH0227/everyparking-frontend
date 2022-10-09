@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
-import { useNavigate, useNavigation } from "react-router-dom";
-import ParkingService, { CLIENT_PATH, SERVER_PATH } from "../service/ParkingService";
-import DefaultLayout, { LoginContext } from "./DefaultLayout";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { CLIENT_PATH } from "../service/ParkingService";
 
 const Signout = () => {
 
   const history = useNavigate()
-  const { login, setLogin } = useContext(LoginContext);
 
   function handleRemoveToken(){
     localStorage.removeItem("jwt")

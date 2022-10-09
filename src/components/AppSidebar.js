@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { CSidebar, CSidebarNav, CSidebarToggler } from '@coreui/react'
 import { AppSidebarNav } from './AppSidebarNav'
@@ -19,49 +19,26 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
-  if(login){
-    return (
-      <CSidebar
-        position="fixed"
-        unfoldable={unfoldable}
-        visible={sidebarShow}
-        onVisibleChange={(visible) => {
-          dispatch({ type: 'set', sidebarShow: visible })
-        }}
-      >
-        <CSidebarNav>
-          <SimpleBar>
-            <AppSidebarNav items={navigation}/>
-          </SimpleBar>
-        </CSidebarNav>
-        <CSidebarToggler
-          className="d-none d-lg-flex"
-          onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-        />
-      </CSidebar>
-    )
-  }else {
-    return (
-      <CSidebar
-        position="fixed"
-        unfoldable={unfoldable}
-        visible={sidebarShow}
-        onVisibleChange={(visible) => {
-          dispatch({ type: "set", sidebarShow: visible });
-        }}
-      >
-        <CSidebarNav>
-          <SimpleBar>
-            <AppSidebarNav items={navigation2} />
-          </SimpleBar>
-        </CSidebarNav>
-        <CSidebarToggler
-          className="d-none d-lg-flex"
-          onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })}
-        />
-      </CSidebar>
-    );
-  }
+  return (
+    <CSidebar
+      position="fixed"
+      unfoldable={unfoldable}
+      visible={sidebarShow}
+      onVisibleChange={(visible) => {
+        dispatch({ type: "set", sidebarShow: visible });
+      }}
+    >
+      <CSidebarNav>
+        <SimpleBar>
+          {login ? <AppSidebarNav items={navigation} /> : <AppSidebarNav items={navigation2} />}
+        </SimpleBar>
+      </CSidebarNav>
+      <CSidebarToggler
+        className="d-none d-lg-flex"
+        onClick={() => dispatch({ type: "set", sidebarUnfoldable: !unfoldable })}
+      />
+    </CSidebar>
+  );
 
 }
 

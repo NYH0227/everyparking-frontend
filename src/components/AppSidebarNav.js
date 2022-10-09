@@ -1,14 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { CBadge, CNavItem } from "@coreui/react";
-import { LoginContext } from "../views/DefaultLayout";
+import { CBadge } from "@coreui/react";
 
 export const AppSidebarNav = ({items}) => {
-
-
-  const { login, setLogin } = useContext(LoginContext);
 
 
   const location = useLocation();
