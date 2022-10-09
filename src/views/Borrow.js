@@ -82,7 +82,7 @@ const Borrow = () => {
                 <td>
                   <div className='d-flex align-items-center'>
                     <img
-                        src='https://mdbootstrap.com/img/new/avatars/8.jpg'
+                        src={item.imgUrl}
                         alt=''
                         style={{ width: '45px', height: '45px' }}
                         className='rounded-circle'
@@ -111,17 +111,13 @@ const Borrow = () => {
                 </td>
               </tr>)}
 
-
-
             </MDBTableBody>
           </MDBTable>
         </MDBAccordionItem>
 
 
-
-
-
         <MDBAccordionItem collapseId={3} headerTitle="가격">
+
 
         </MDBAccordionItem>
       </MDBAccordion>
