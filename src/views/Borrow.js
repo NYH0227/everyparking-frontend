@@ -76,7 +76,8 @@ const Borrow = () => {
             </MDBTableHead>
 
             <MDBTableBody>
-              {myPlaces.map((item, idx) =>
+              {myPlaces &&
+                myPlaces.map((item, idx) =>
               <tr key={idx}>
                 <td>
                   <div className='d-flex align-items-center'>
@@ -98,7 +99,6 @@ const Borrow = () => {
                 <td>
                   <MDBBadge color='success' pill>
                     Active
-                    {/*{item.isRent ? "대여 중" : "대여 가능"}*/}
                   </MDBBadge>
                 </td>
                 <td>

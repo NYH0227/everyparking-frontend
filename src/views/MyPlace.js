@@ -41,8 +41,6 @@ const MyPlace = () => {
     var geocoder = new kakao.maps.services.Geocoder();
     geocoder.addressSearch( input , function (result, status) {
 
-      console.log(result[0].x, result[0].y)
-
       setX(result[0].x)
       setY(result[0].y)
 
@@ -97,7 +95,10 @@ const MyPlace = () => {
 
         setMapAddr("")
         setMessage("")
-        placeName("")
+        setPlaceName("")
+        setImgUrl("")
+
+
       })
       .catch((err) => console.log(err.response))
   }

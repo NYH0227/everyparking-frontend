@@ -7,7 +7,6 @@ import { LoginContext } from "../views/DefaultLayout";
 
 export const AppSidebarNav = ({items}) => {
 
-  //const [items,setItems] = useState(localStorage.getItem("jwt") !== (undefined || null) ? navigation : navigation2)
 
   const { login, setLogin } = useContext(LoginContext);
 
@@ -65,10 +64,9 @@ export const AppSidebarNav = ({items}) => {
 
   return (
     <React.Fragment>
-      {/*{items &&*/}
-      {/*  items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}*/}
+      {items &&
+        items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
 
-      {items.map((item, index) => (item.items ? navGroup(item, index) : navItem(item, index)))}
     </React.Fragment>
   );
 };

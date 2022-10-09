@@ -19,9 +19,7 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
-  // const [isLogined, setIsLogined] = useState(localStorage.getItem("jwt") !== (undefined || null) ? true : false)
-
-  if(login){
+  if(!login){
     return (
       <CSidebar
         position="fixed"
@@ -67,5 +65,4 @@ const AppSidebar = () => {
 
 }
 
-//export default React.memo(AppSidebar)
 export default AppSidebar

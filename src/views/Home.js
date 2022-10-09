@@ -12,9 +12,9 @@ const Home = () => {
           <AppContent />
         </div>
       </div>
-      <SignIn/>
+      <SignIn />
     </div>
-  )
+  );
 }
 
 export default Home
