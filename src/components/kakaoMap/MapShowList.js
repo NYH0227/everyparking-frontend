@@ -18,6 +18,7 @@ const MapShowList = (places) => {
       {
         title: '카카오',
         addr : "첨단로 242",
+
         latlng: new kakao.maps.LatLng(33.450705, 126.570677)
       },
       {

@@ -3,11 +3,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { CBadge, CNavItem } from "@coreui/react";
-import CIcon from "@coreui/icons-react";
-import { cilStar } from "@coreui/icons";
-
-import navigation from '../_nav'
-import navigation2 from '../_nav2'
 import { LoginContext } from "../views/DefaultLayout";
 
 export const AppSidebarNav = ({items}) => {
