@@ -1,12 +1,11 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ParkingService from "../service/ParkingService";
-import { MDBAccordion, MDBAccordionItem, MDBBtn, MDBRipple } from "mdb-react-ui-kit";
+import { MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import { MDBBadge,MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CButton, CFormInput } from "@coreui/react";
-import { getElement } from "@coreui/coreui/js/src/util";
 
 
 const Borrow = () => {
