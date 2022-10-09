@@ -39,13 +39,13 @@ const _nav = ([
   {
     component: CNavItem,
     name: '장소 빌려주기',
-    to: '/borrow',
+    to: '/rent',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: '장소 빌리기',
-    to: '/rent',
+    to: '/borrow',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
   },
   {

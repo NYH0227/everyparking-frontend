@@ -8,7 +8,6 @@ export const CLIENT_PATH = "http://192.168.131.38:3000"
 
 class ParkingService {
 
-
     addHeader(method,path,data){
       return axios({
         method: method,
@@ -42,15 +41,19 @@ class ParkingService {
       return this.addHeader("get","/api/parking")
     }
 
-    /** Rent 데이터 보내기*/
-    postRentPlaceData(startTime,endTime,point,message,placeId){
+    /** Borrow 데이터 보내기*/
+    postRentPlaceData(startTime,endTime,cost,message,placeId){
       return this.addHeader("post","/api/rent",{
         "startTime" : startTime,
         "endTime" : endTime,
         "message" : message,
         "placeId" : placeId,
-        "point" : point
+        "cost" : cost
       })
+    }
+
+    getBorrow(){
+      return this.addHeader("get","/api/borrow")
     }
 
 
