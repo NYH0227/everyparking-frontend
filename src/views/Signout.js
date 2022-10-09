@@ -10,8 +10,6 @@ const Signout = () => {
 
   function handleRemoveToken(){
     localStorage.removeItem("jwt")
-    //DefaultLayout.forceUpdate()
-    //
     window.location.href = "http://localhost:3000/"
     history("/")
 
