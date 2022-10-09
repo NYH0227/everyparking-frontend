@@ -57,125 +57,76 @@ function SignUp() {
     }
 
 
-    return (
-      <CRow>
-        <CCol xs={12}>
-          <CCard className="mb-4">
-            <CCardHeader>
-              <strong>회원가입</strong>
-            </CCardHeader>
-            <CCardBody>
-              <CForm validated={true}>
-                <div className="mb-3">
-                  <CFormLabel htmlFor="validationTextarea" className="form-label">
-                    이메일
-                  </CFormLabel>
-                  <CFormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} ></CFormInput>
-                  <CFormFeedback invalid>이메일을 입력해주세요</CFormFeedback>
-                </div>
+  return (
+    <CRow>
+      <CCol xs={12}>
+        <CCard className="mb-4">
+          <CCardHeader>
+            <strong>회원가입</strong>
+          </CCardHeader>
+          <CCardBody>
+            <CForm validated={true}>
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  이메일
+                </CFormLabel>
+                <CFormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>이메일을 입력해주세요</CFormFeedback>
+              </div>
 
 
-                <div className="mb-3">
-                  <CFormLabel htmlFor="validationTextarea" className="form-label">
-                    비밀번호
-                  </CFormLabel>
-                  <CFormInput type="password" minLength={8} maxLength={16} value={password} onChange={(e) => setPassword(e.target.value)}></CFormInput>
-                  <CFormFeedback invalid>비밀번호를 입력해주세요</CFormFeedback>
-                </div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  비밀번호
+                </CFormLabel>
+                <CFormInput type="password" minLength={8} maxLength={16} value={password}
+                            onChange={(e) => setPassword(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>비밀번호를 입력해주세요</CFormFeedback>
+              </div>
 
-                <div className="mb-3">
-                  <CFormLabel htmlFor="validationTextarea" className="form-label">
-                    닉네임
-                  </CFormLabel>
-                  <CFormInput type="text" value={nickname} onChange={(e) => setNickname(e.target.value)}></CFormInput>
-                  <CFormFeedback invalid>닉네임을 입력해주세요</CFormFeedback>
-                </div>
-
-
-                <div className="mb-3">
-                  <CFormLabel htmlFor="validationTextarea" className="form-label">
-                    전화번호
-                  </CFormLabel>
-                  <CFormInput type="text" value={tel} onChange={(e) => setTel(e.target.value)}></CFormInput>
-                  <CFormFeedback invalid>전화번호를 입력해주세요</CFormFeedback>
-                </div>
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  닉네임
+                </CFormLabel>
+                <CFormInput type="text" value={nickname} onChange={(e) => setNickname(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>닉네임을 입력해주세요</CFormFeedback>
+              </div>
 
 
-                <div className="mb-3">
-                  <CFormLabel htmlFor="validationTextarea" className="form-label">
-                    지역
-                  </CFormLabel>
-                  <CFormSelect onChange={(e)=> setCity(e.target.value)} required aria-label="select example">
-                    <option>지역을 선택해주세요</option>
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  전화번호
+                </CFormLabel>
+                <CFormInput type="text" value={tel} onChange={(e) => setTel(e.target.value)}></CFormInput>
+                <CFormFeedback invalid>전화번호를 입력해주세요</CFormFeedback>
+              </div>
 
-                    {cities.map( (x,index) =>
-                      <option value={x} key={index}>{x}</option>
-                    )}
 
-                  </CFormSelect>
-                  <CFormFeedback invalid>Example invalid select feedback</CFormFeedback>
-                </div>
-                <div className="mb-3">
-                  <CButton color="primary" onClick={handleSignUpOnclick}>
-                    회원가입
-                  </CButton>
-                </div>
-              </CForm>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  지역
+                </CFormLabel>
+                <CFormSelect onChange={(e) => setCity(e.target.value)} required aria-label="select example">
+                  <option>지역을 선택해주세요</option>
 
-  // <div>
-  //           <div className="form-outline mb-4">
-  //               <input value={email} onChange={(e) => setEmail(e.target.value)} type="email"
-  //                      id="registerEmail" className="form-control"/>
-  //               <label className="form-label" htmlFor="registerEmail">Email</label>
-  //           </div>
-  //
-  //
-  //           <div className="form-outline mb-4">
-  //               <input value={password} onChange={(e) => setPassword(e.target.value)} type="password"
-  //                      id="registerPassword" className="form-control"/>
-  //               <label className="form-label" htmlFor="registerPassword">Password</label>
-  //           </div>
-  //
-  //
-  //           <div className="form-outline mb-4">
-  //               <input value={nickname} onChange={(e) => setNickname(e.target.value)} type="text"
-  //                      id="registerNickName" className="form-control"/>
-  //               <label className="form-label" htmlFor="registerNickName">Nickname</label>
-  //           </div>
-  //
-  //           <div className="form-outline mb-4">
-  //               <input value={tel} onChange={(e) => setTel(e.target.value)} type="text" id="registerTel"
-  //                      className="form-control"/>
-  //               <label className="form-label" htmlFor="registerTel">tel</label>
-  //           </div>
-  //
-  //           <div className="form-outline mb-4">
-  //               <Form.Borrow onChange={(e) => setCity(e.target.value)} aria-label="Default select example">
-  //                   <option selected>선택해주세요</option>
-  //                   {
-  //                       cities.map((x, idx) =>
-  //                           <option key={idx}>{x}</option>
-  //                       )
-  //                   }
-  //               </Form.Borrow>
-  //           </div>
-  //
-  //           <div className="text-center mb-3">
-  //               <p>Sign up with:</p>
-  //
-  //               <button type="button"
-  //                       className="btn btn-link btn-floating mx-1">
-  //                   <i className="fab fa-google"></i>
-  //               </button>
-  //           </div>
-  //           <button onClick={handleSignUpOnclick} className="btn btn-primary btn-block mb-3">Sign up
-  //           </button>
-  //       </div>
-    );
+                  {cities.map((x, index) =>
+                    <option value={x} key={index}>{x}</option>
+                  )}
+
+                </CFormSelect>
+                <CFormFeedback invalid>Example invalid select feedback</CFormFeedback>
+              </div>
+              <div className="mb-3">
+                <CButton color="primary" onClick={handleSignUpOnclick}>
+                  회원가입
+                </CButton>
+              </div>
+            </CForm>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
+  );
 }
 
 export default SignUp;
