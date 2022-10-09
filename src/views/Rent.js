@@ -6,18 +6,16 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CButton, CFormInput } from "@coreui/react";
-import { getElement } from "@coreui/coreui/js/src/util";
 
 
 const Rent = () => {
 
 
   // 빌려져있으면 disable 기능
-  // 선택 눌럿으면 그거만 ifo
+  // 선택 눌럿으면 그거만 info
   // required
   // 선택 누르면 다음 아코디언으로 넘어가기
-
-  //const [startDate, setStartDate] = useState(new Date());
+  // 전송했읐때 랜더링
 
 
   const [myPlaces, setMyPlaces] = useState([]);
@@ -48,9 +46,7 @@ const Rent = () => {
     return (
       <DatePicker
         selected={startTime}
-        onChange={(date) =>
-          setStartTime(date)
-        }
+        onChange={(date) => setStartTime(date)}
         locale="pt-BR"
         showTimeSelect
         timeFormat="p"
@@ -64,10 +60,7 @@ const Rent = () => {
     return (
       <DatePicker
         selected={endTime}
-        onChange={
-          (date) =>
-            setEndTime(date)
-        }
+        onChange={(date) => setEndTime(date)}
         locale="pt-BR"
         showTimeSelect
         timeFormat="p"
@@ -78,9 +71,12 @@ const Rent = () => {
   }
 
   const handleDataOnClick = () => {
-    console.log(startTime,startTime,cost,message,placeId)
 
-    ParkingService.postRentPlaceData(startTime,endTime,cost,message,placeId)
+    console.log("시작시간 : ",startTime)
+    console.log("종료시간 : ",endTime)
+    console.log("변환종료시간 : ",endTime.toISOString())
+
+    ParkingService.postRentPlaceData(startTime.toISOString(),endTime.toISOString(),cost,message,placeId)
       .then((res) => {
         console.log(res)
         Swal.fire(res.data.message,"","success")
@@ -88,7 +84,6 @@ const Rent = () => {
 
       })
       .catch((err) => console.log(err))
-    console.log("시작시간 ",startTime)
   }
 
 
@@ -129,7 +124,7 @@ const Rent = () => {
                   <p className='fw-normal mb-1'>{item.message}</p>
                 </td>
                 <td>
-                  {item.isBorrow ? <MDBBadge color='danger' pill>
+                  {item.borrow ? <MDBBadge color='danger' pill>
                     대여중
                   </MDBBadge> : <MDBBadge color='info' pill>
                     대여가능

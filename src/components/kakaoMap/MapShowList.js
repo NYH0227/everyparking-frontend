@@ -18,6 +18,16 @@ const MapShowList = (places) => {
       {
         title: '카카오',
         addr : "첨단로 242",
+        mapX : "126.570677",
+        mapY : "33.450705",
+        messge : "s",
+        startTime : "123124",
+        endTime : "1234567",
+        cost : "30000",
+        messge1 : "",
+        carSize : "",
+
+
 
         latlng: new kakao.maps.LatLng(33.450705, 126.570677)
       },

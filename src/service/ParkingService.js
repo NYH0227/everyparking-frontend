@@ -1,8 +1,9 @@
 import axios from "axios";
 
 //export const SERVER_PATH = "http://localhost:7777"
-export const SERVER_PATH = "http://192.168.131.181:7777"
-export const CLIENT_PATH = "http://192.168.131.38:3000"
+export const SERVER_PATH = "http://192.168.222.181:7777"
+
+export const CLIENT_PATH = "http://192.168.222.38:3000"
 
 
 
