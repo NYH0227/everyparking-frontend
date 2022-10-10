@@ -160,7 +160,6 @@ const MyPlace = () => {
                 <CFormFeedback invalid>세부주소를 입력해주세요</CFormFeedback>
               </div>
 
-
               <div className="mb-3">
                 <CFormLabel htmlFor="validationTextarea" className="form-label">
                   별칭

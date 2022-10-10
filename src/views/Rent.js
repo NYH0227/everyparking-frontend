@@ -133,7 +133,7 @@ const Rent = () => {
                       {item.id == placeId ?
                         <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
                         :
-                        <CButton color="success" value={item.id} disabled={item.borrow ? true : false}
+                        <CButton color="success" value={item.id} disabled={item.borrow}
                                  onClick={(e) => {
                                    setPlaceSize(item.placeSize)
                                    setPlaceId(e.target.value);
