@@ -1,21 +1,16 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ParkingService from "../service/ParkingService";
 import { MDBAccordion, MDBAccordionItem, MDBBtn, MDBRipple } from "mdb-react-ui-kit";
 import { MDBBadge,MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CButton, CFormFeedback, CFormInput, CFormLabel, CFormSelect } from "@coreui/react";
+import { CButton, CFormInput, CFormLabel, CFormSelect } from "@coreui/react";
 
 
 const Rent = () => {
 
-
-  // 빌려져있으면 disable 기능
-  // 선택 눌럿으면 그거만 info
   // required
-  // 선택 누르면 다음 아코디언으로 넘어가기
-  // 전송했읐때 랜더링
 
 
   const [myPlaces, setMyPlaces] = useState([]);
@@ -33,14 +28,18 @@ const Rent = () => {
       .then((res) => setSize(res.data))
       .catch((err) => console.log(err))
 
+    getMyPlacessFuc()
+
+  }, []);
+
+  const getMyPlacessFuc = () => {
     ParkingService.getMyPlaces()
       .then((res) => {
         setMyPlaces(res.data.data);
         console.log(res.data);
       })
       .catch((err) => console.log(err));
-
-  }, []);
+  }
 
   const handleSelectPlace = () => {
     if (myPlaces.length === 0) {
@@ -81,12 +80,18 @@ const Rent = () => {
     ParkingService.postRentPlaceData(startTime.toISOString(), endTime.toISOString(), cost, message, placeId)
       .then((res) => {
         console.log(res);
+        getMyPlacessFuc()
         Swal.fire(res.data.message, "", "success");
-        setMessage("");
-        setCost("");
-
       })
-      .catch((err) => console.log(err));
+
+      .catch((err) => {
+        console.log("err",err.response.data.errorList)
+        Swal.fire(err.response.data.errorList[0].message, "", "error");
+      });
+
+    setMessage("");
+    setCost("");
+    setPlaceId("");
   };
 
 
@@ -136,7 +141,8 @@ const Rent = () => {
                       {item.id == placeId ?
                         <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
                         :
-                        <CButton color="success" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택</CButton>
+                        <CButton color="success" value={item.id} disabled={item.borrow ? true : false}
+                                 onClick={(e) => setPlaceId(e.target.value)}>선택</CButton>
                       }
 
                     </td>
@@ -196,8 +202,7 @@ const Rent = () => {
 
 
     </div>
-  )
-    ;
+  );
 };
 
 export default Rent;
