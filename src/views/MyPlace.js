@@ -9,7 +9,7 @@ import {
   CFormInput,
   CFormFeedback,
   CFormLabel,
-  CRow, CInputGroup
+  CRow, CInputGroup, CFormSelect
 } from "@coreui/react";
 import ParkingService from "../service/ParkingService";
 import Swal from "sweetalert2";
@@ -27,6 +27,9 @@ const MyPlace = () => {
   const [y_pos,setY] = useState(0.0)
   const [imgUrl, setImgUrl] = useState("")
   const [text,setText] = useState()
+
+  const [size,setSize] = useState([])
+  const [carSize,setCarSize] = useState()
 
 
   useEffect(() => {
@@ -66,6 +69,13 @@ const MyPlace = () => {
     });
   }, [input]);
 
+  useEffect(() => {
+      ParkingService.getCarType()
+        .then((res) => setSize(res.data))
+        .catch((err) => console.log(err))
+    }
+  ,[])
+
   const Toast = Swal.mixin({
     toast: true,
     position: 'top-right',
@@ -88,7 +98,7 @@ const MyPlace = () => {
 
 
 
-    ParkingService.postAddPlace(mapAddr,x_pos,y_pos,message,placeName,imgUrl)
+    ParkingService.postAddPlace(mapAddr,x_pos,y_pos,message,placeName,imgUrl,carSize)
       .then((res) => {
         console.log(res.data)
         Swal.fire(res.data.message,"","success")
@@ -151,6 +161,18 @@ const MyPlace = () => {
                 <CFormInput placeholder="우리집" type="text" value={placeName}
                             onChange={(e) => setPlaceName(e.target.value)}></CFormInput>
                 <CFormFeedback invalid>별칭을 입력해주세요</CFormFeedback>
+              </div>
+
+              <div className="mb-3">
+                <CFormLabel htmlFor="validationTextarea" className="form-label">
+                  주차장 크기
+                </CFormLabel>
+                <CFormSelect onChange={(e) => setCarSize(e.target.value)} required aria-label="select example">
+                  <option>선택해주세요</option>
+                  {size.map((x, index) =>
+                    <option value={x} key={index}>{x}</option>
+                  )}
+                </CFormSelect>
               </div>
 
               <div className="mb-3">

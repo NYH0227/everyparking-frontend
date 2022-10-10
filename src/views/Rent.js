@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ParkingService from "../service/ParkingService";
-import { MDBAccordion, MDBAccordionItem, MDBBtn, MDBRipple } from "mdb-react-ui-kit";
+import { MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import { MDBBadge,MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
@@ -9,9 +9,6 @@ import { CButton, CFormInput, CFormLabel, CFormSelect } from "@coreui/react";
 
 
 const Rent = () => {
-
-  // required
-
 
   const [myPlaces, setMyPlaces] = useState([]);
   const [startTime, setStartTime] = useState(new Date());
@@ -24,12 +21,7 @@ const Rent = () => {
   const [size,setSize] = useState([]);
 
   useEffect(() => {
-    ParkingService.getCarType()
-      .then((res) => setSize(res.data))
-      .catch((err) => console.log(err))
-
     getMyPlacessFuc()
-
   }, []);
 
   const getMyPlacessFuc = () => {
