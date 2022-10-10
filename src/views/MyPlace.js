@@ -13,27 +13,28 @@ import {
 } from "@coreui/react";
 import ParkingService from "../service/ParkingService";
 import Swal from "sweetalert2";
+
 const { kakao } = window;
 
 
 const MyPlace = () => {
 
-  const [placeName,setPlaceName] = useState()
-  const [mapAddr,setMapAddr] = useState()
-  const [message,setMessage] = useState()
-  const [input, setInput] = useState()
+  const [placeName, setPlaceName] = useState();
+  const [mapAddr, setMapAddr] = useState();
+  const [message, setMessage] = useState();
+  const [input, setInput] = useState();
 
-  const [x_pos,setX] = useState(0.0)
-  const [y_pos,setY] = useState(0.0)
-  const [imgUrl, setImgUrl] = useState("")
-  const [text,setText] = useState()
+  const [x_pos, setX] = useState(0.0);
+  const [y_pos, setY] = useState(0.0);
+  const [imgUrl, setImgUrl] = useState("");
+  const [text, setText] = useState();
 
-  const [size,setSize] = useState([])
-  const [carSize,setCarSize] = useState()
+  const [size, setSize] = useState([]);
+  const [carSize, setCarSize] = useState("소형");
 
 
   useEffect(() => {
-    var mapContainer = document.getElementById('myMap'),
+    var mapContainer = document.getElementById("myMap"),
       mapOption = {
         center: new kakao.maps.LatLng(37.4788363460667, 126.753432165028),
         level: 4 // 지도의 확대 레벨
@@ -42,18 +43,18 @@ const MyPlace = () => {
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
     var geocoder = new kakao.maps.services.Geocoder();
-    geocoder.addressSearch( input , function (result, status) {
+    geocoder.addressSearch(input, function(result, status) {
 
-      setX(result[0].x)
-      setY(result[0].y)
+      setX(result[0].x);
+      setY(result[0].y);
 
       if (status === kakao.maps.services.Status.OK) {
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
         var callback = function(result, status) {
           if (status === kakao.maps.services.Status.OK) {
-            console.log("주소는",result[0].address.address_name);
-            setMapAddr(result[0].address.address_name)
+            console.log("주소는", result[0].address.address_name);
+            setMapAddr(result[0].address.address_name);
           }
         };
         geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
@@ -63,7 +64,7 @@ const MyPlace = () => {
           position: coords
         });
 
-        map.setCenter(coords,marker);
+        map.setCenter(coords, marker);
 
       }
     });
@@ -72,48 +73,52 @@ const MyPlace = () => {
   useEffect(() => {
       ParkingService.getCarType()
         .then((res) => setSize(res.data))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
-  ,[])
+    , []);
 
   const Toast = Swal.mixin({
     toast: true,
-    position: 'top-right',
-    iconColor: 'white',
+    position: "top-right",
+    iconColor: "white",
     customClass: {
-      popup: 'colored-toast'
+      popup: "colored-toast"
     },
     showConfirmButton: false,
     timer: 1500,
     timerProgressBar: true
-  })
+  });
 
-   const handleAddPlace = async () => {
+  const handleAddPlace = () => {
 
-     await Toast.fire({
-       imageUrl: imgUrl === "" ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==" : imgUrl,
-       imageWidth : 400,
-       imageHeight : 200,
-     })
+    Toast.fire({
+      imageUrl: imgUrl === "" ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==" : imgUrl,
+      imageWidth: 400,
+      imageHeight: 200
+    });
 
-    ParkingService.postAddPlace(mapAddr,x_pos,y_pos,message,placeName,imgUrl,carSize)
-      .then((res) => {
-        console.log(res.data)
-        Swal.fire(res.data.message,"","success")
+    ParkingService.postAddPlace(mapAddr, x_pos, y_pos, message, placeName, imgUrl, carSize)
+      .then( (res) => {
+        console.log(res.data);
+        Swal.fire(res.data.message, "", "success", () => {
+          Toast.fire({
+            imageUrl: imgUrl === "" ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==" : imgUrl,
+            imageWidth: 400,
+            imageHeight: 200
+          });
+        });
 
-        setMapAddr("")
-        setMessage("")
-        setPlaceName("")
-        setImgUrl("")
-
-
+        setMapAddr("");
+        setMessage("");
+        setPlaceName("");
+        setImgUrl("");
 
       })
       .catch((err) => {
         console.log(err.response);
         Swal.fire(err.response.data.errorList[0].message, "", "error");
       });
-  }
+  };
 
   return (
     <CRow>
@@ -170,7 +175,6 @@ const MyPlace = () => {
                   주차장 크기
                 </CFormLabel>
                 <CFormSelect onChange={(e) => setCarSize(e.target.value)} required aria-label="select example">
-                  <option>선택해주세요</option>
                   {size.map((x, index) =>
                     <option value={x} key={index}>{x}</option>
                   )}
@@ -198,6 +202,6 @@ const MyPlace = () => {
       </CCol>
     </CRow>
   );
-}
+};
 
 export default MyPlace;

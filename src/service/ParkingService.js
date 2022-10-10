@@ -54,9 +54,15 @@ class ParkingService {
       })
     }
 
+    getMyCar(){
+      return this.addHeader("get","/api/car/me")
+    }
+
     getBorrow(){
       return this.addHeader("get","/api/borrow")
     }
+
+
 
 
     /** 차 등록 */
@@ -91,7 +97,6 @@ class ParkingService {
                 "password": password,
                 "tel": tel
             })
-
     }
     /** 로그인 */
     postSignIn(email,password){
