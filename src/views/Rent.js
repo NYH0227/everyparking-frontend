@@ -16,9 +16,8 @@ const Rent = () => {
   const [cost, setCost] = useState();
   const [message, setMessage] = useState();
   const [placeId, setPlaceId] = useState();
+  const [placeSize, setPlaceSize] = useState("")
 
-  const [carSize,setCarSize] = useState();
-  const [size,setSize] = useState([]);
 
   useEffect(() => {
     getMyPlacessFuc()
@@ -84,8 +83,9 @@ const Rent = () => {
     setMessage("");
     setCost("");
     setPlaceId("");
-  };
+    setPlaceSize("");
 
+  };
 
   return (
     <div>
@@ -134,9 +134,11 @@ const Rent = () => {
                         <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
                         :
                         <CButton color="success" value={item.id} disabled={item.borrow ? true : false}
-                                 onClick={(e) => setPlaceId(e.target.value)}>선택</CButton>
+                                 onClick={(e) => {
+                                   setPlaceSize(item.placeSize)
+                                   setPlaceId(e.target.value);
+                                 }}>선택</CButton>
                       }
-
                     </td>
                   </tr>)}
             </MDBTableBody>
@@ -167,12 +169,9 @@ const Rent = () => {
                   }} />
                 </td>
                 <td>
-                  <CFormSelect onChange={(e) => setCarSize(e.target.value)} required aria-label="select example">
-                    <option>선택해주세요</option>
-                    {size.map((x, index) =>
-                      <option value={x} key={index}>{x}</option>
-                    )}
-                  </CFormSelect>
+                  <CFormInput type="text" placeholder="" value={placeSize} disabled onChange={(e) => {
+                    setPlaceSize(e.target.value);
+                  }} />
                 </td>
               </tr>
             </MDBTableBody>
@@ -186,7 +185,6 @@ const Rent = () => {
             <CFormInput placeholder="상대방에게 보낼 메세지를 남겨주세요." type="text" value={message}
                         onChange={(e) => setMessage(e.target.value)}></CFormInput>
           </div>
-
           <CButton color="success" onClick={handleDataOnClick}>등록하기</CButton>
 
         </MDBAccordionItem>

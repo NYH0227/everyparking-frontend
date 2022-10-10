@@ -29,13 +29,16 @@ const MyCar = () => {
   },[])
 
   const handleAddCar = () => {
-    ParkingService.postAddCar(carNum,carModel,carSize)
+    ParkingService.postAddCar(carNum, carModel, carSize)
       .then((res) => {
-        Swal.fire(res.data.message,"","success")
-        setCarNum("")
-        setCarModel("")
+        Swal.fire(res.data.message, "", "success");
+        setCarNum("");
+        setCarModel("");
       })
-      .catch((err) => console.log(err.response))
+      .catch((err) => {
+        console.log(err.response);
+        Swal.fire(err.response.data.errorList[0].message, "", "error");
+      });
   }
 
   return (
