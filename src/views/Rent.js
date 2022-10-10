@@ -73,6 +73,12 @@ const Rent = () => {
         console.log(res);
         getMyPlacessFuc()
         Swal.fire(res.data.message, "", "success");
+
+        setMessage("");
+        setCost("");
+        setPlaceId("");
+        setPlaceSize("");
+
       })
 
       .catch((err) => {
@@ -80,10 +86,6 @@ const Rent = () => {
         Swal.fire(err.response.data.errorList[0].message, "", "error");
       });
 
-    setMessage("");
-    setCost("");
-    setPlaceId("");
-    setPlaceSize("");
 
   };
 
