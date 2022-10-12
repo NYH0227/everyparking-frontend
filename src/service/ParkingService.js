@@ -1,10 +1,10 @@
 import axios from "axios";
 
-// export const CLIENT_PATH = "http://localhost:3000"
-// export const SERVER_PATH = "http://localhost:7777"
+export const CLIENT_PATH = "http://localhost:3000"
+export const SERVER_PATH = "http://localhost:7777"
 
-export const SERVER_PATH = "http://192.168.222.181:7777"
-export const CLIENT_PATH = "http://192.168.222.38:3000"
+// export const SERVER_PATH = "http://192.168.222.181:7777"
+// export const CLIENT_PATH = "http://192.168.222.38:3000"
 
 
 
@@ -43,7 +43,7 @@ class ParkingService {
       return this.addHeader("get","/api/parking")
     }
 
-    /** Borrow 데이터 보내기*/
+    /** Rent 데이터 보내기*/
     postRentPlaceData(startTime,endTime,cost,message,placeId){
       return this.addHeader("post","/api/rent",{
         "startTime" : startTime,
@@ -51,6 +51,16 @@ class ParkingService {
         "message" : message,
         "placeId" : placeId,
         "cost" : cost
+      })
+    }
+
+    postBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
+      return this.addHeader("post","/api/borrow",{
+        "carNumber" : carNumber,
+        "mapX" : myMapX,
+        "mapY" : myMapY,
+        "startTime" : startTime,
+        "endTime" : endTime
       })
     }
 
