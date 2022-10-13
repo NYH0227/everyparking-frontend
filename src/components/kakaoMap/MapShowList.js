@@ -26,9 +26,6 @@ const MapShowList = (places) => {
         cost : "30000",
         messge1 : "",
         carSize : "",
-
-
-
         latlng: new kakao.maps.LatLng(33.450705, 126.570677)
       },
       {
@@ -58,6 +55,36 @@ const MapShowList = (places) => {
       });
       infowindow.open(map, marker);
     }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+
+        setMyMapY(position.coords.latitude)
+        setMyMapX(position.coords.longitude)
+
+        var mapContainer = document.getElementById("selectMap")
+        var mapOption = {
+          center: new kakao.maps.LatLng(myMapY, myMapX),
+          level: 4 // 지도의 확대 레벨
+        };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+        var coords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: coords
+        });
+
+        var infowindow = new kakao.maps.InfoWindow({
+          map: map,
+          position : coords,
+          content : '<div style="padding:5px;">현재 위치</div>',
+        });
+        infowindow.open(map, marker);
+
+        map.setCenter(coords, marker);
+      })}
   }, []);
 
   return (

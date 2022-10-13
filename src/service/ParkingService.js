@@ -54,8 +54,8 @@ class ParkingService {
       })
     }
 
-    postBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
-      return this.addHeader("post","/api/borrow",{
+    getBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
+      return this.addHeader("get","/api/borrow/recommand",{
         "carNumber" : carNumber,
         "mapX" : myMapX,
         "mapY" : myMapY,

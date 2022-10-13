@@ -47,7 +47,7 @@ const Rent = () => {
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}
-        dateFormat="MM월 dd일 h:mm aa"
+        dateFormat="MM월 dd일 h시 aa"
       />
     );
   };
@@ -61,7 +61,7 @@ const Rent = () => {
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}
-        dateFormat="MM월 dd일 h:mm aa"
+        dateFormat="MM월 dd일 h시 aa"
       />
     );
   };
