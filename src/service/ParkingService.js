@@ -21,6 +21,9 @@ class ParkingService {
         data : data
       })
     }
+    formatTime(time){
+      return time.setMinutes(0).setSeconds(0).toISOString()
+    }
 
     /** 도시 리스트 받아오기 */
     getCities(){
@@ -55,7 +58,7 @@ class ParkingService {
     }
 
     getBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
-      return this.addHeader("get","/api/borrow/recommand",{
+      return this.addHeader("get","/api/borrow",{
         "carNumber" : carNumber,
         "mapX" : myMapX,
         "mapY" : myMapY,
@@ -67,12 +70,6 @@ class ParkingService {
     getMyCar(){
       return this.addHeader("get","/api/car/me")
     }
-
-    getBorrow(){
-      return this.addHeader("get","/api/borrow")
-    }
-
-
 
 
     /** 차 등록 */

@@ -26,7 +26,6 @@ function SignIn() {
     const handleLoginOnClick = () => {
         ParkingService.postSignIn(email,password)
             .then((res) => {
-
                 console.log(res)
                 localStorage.setItem("jwt",res.data.data)
 

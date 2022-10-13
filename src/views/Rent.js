@@ -126,9 +126,9 @@ const Rent = () => {
                     </td>
                     <td>
                       {item.borrow ? <MDBBadge color="danger" pill>
-                        대여중
+                        등록중
                       </MDBBadge> : <MDBBadge color="info" pill>
-                        대여가능
+                        등록가능
                       </MDBBadge>}
                     </td>
                     <td>
