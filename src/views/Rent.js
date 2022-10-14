@@ -97,7 +97,6 @@ const Rent = () => {
             <MDBTableHead>
               <tr>
                 <th scope="col">장소</th>
-                <th scope="col">세부주소</th>
                 <th scope="col">상태</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -120,9 +119,6 @@ const Rent = () => {
                           <p className="text-muted mb-0">{item.addr}</p>
                         </div>
                       </div>
-                    </td>
-                    <td>
-                      <p className="fw-normal mb-1">{item.message}</p>
                     </td>
                     <td>
                       {item.borrow ? <MDBBadge color="danger" pill>

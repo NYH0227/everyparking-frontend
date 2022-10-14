@@ -57,11 +57,13 @@ class ParkingService {
       })
     }
 
+
     getBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
-      return this.addHeader("get","/api/borrow",{
-        "carNumber" : carNumber,
+
+      return this.addHeader("post","/api/borrow/recommend",{
         "mapX" : myMapX,
         "mapY" : myMapY,
+        "carNumber" : carNumber,
         "startTime" : startTime,
         "endTime" : endTime
       })
