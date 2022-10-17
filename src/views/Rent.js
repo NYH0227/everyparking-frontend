@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ParkingService from "../service/ParkingService";
 import { MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
-import { MDBBadge,MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CButton, CFormInput, CFormLabel, CFormSelect } from "@coreui/react";
+import { CButton, CFormInput, CFormLabel } from "@coreui/react";
 
 
 const Rent = () => {
@@ -16,11 +16,11 @@ const Rent = () => {
   const [cost, setCost] = useState();
   const [message, setMessage] = useState();
   const [placeId, setPlaceId] = useState();
-  const [placeSize, setPlaceSize] = useState("")
+  const [placeSize, setPlaceSize] = useState("");
 
 
   useEffect(() => {
-    getMyPlacessFuc()
+    getMyPlacessFuc();
   }, []);
 
   const getMyPlacessFuc = () => {
@@ -30,7 +30,7 @@ const Rent = () => {
         console.log(res.data);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   const handleSelectPlace = () => {
     if (myPlaces.length === 0) {
@@ -57,7 +57,7 @@ const Rent = () => {
       <DatePicker
         selected={endTime}
         onChange={(date) => setEndTime(date)}
-        locale="pt-BR"
+        locale="ko"
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}
@@ -67,26 +67,21 @@ const Rent = () => {
   };
 
   const handleDataOnClick = () => {
-
     ParkingService.postRentPlaceData(startTime.toISOString(), endTime.toISOString(), cost, message, placeId)
       .then((res) => {
         console.log(res);
-        getMyPlacessFuc()
+        getMyPlacessFuc();
         Swal.fire(res.data.message, "", "success");
 
         setMessage("");
         setCost("");
         setPlaceId("");
         setPlaceSize("");
-
       })
-
       .catch((err) => {
-        console.log("err",err.response.data.errorList)
+        console.log("err", err.response.data.errorList);
         Swal.fire(err.response.data.errorList[0].message, "", "error");
       });
-
-
   };
 
   return (
@@ -104,7 +99,7 @@ const Rent = () => {
 
             <MDBTableBody>
               {myPlaces &&
-                myPlaces.map((item, idx) =>
+                myPlaces.map((item) =>
                   <tr key={item.id} id={item.id}>
                     <td>
                       <div className="d-flex align-items-center">
@@ -128,12 +123,12 @@ const Rent = () => {
                       </MDBBadge>}
                     </td>
                     <td>
-                      {item.id == placeId ?
+                      {item.id === placeId ?
                         <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
                         :
                         <CButton color="success" value={item.id} disabled={item.borrow}
                                  onClick={(e) => {
-                                   setPlaceSize(item.placeSize)
+                                   setPlaceSize(item.placeSize);
                                    setPlaceId(e.target.value);
                                  }}>선택</CButton>
                       }
