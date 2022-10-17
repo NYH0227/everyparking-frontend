@@ -19,6 +19,8 @@ const { kakao } = window;
 
 const MyPlace = () => {
 
+  // 클릭 주소
+
   const [placeName, setPlaceName] = useState();
   const [mapAddr, setMapAddr] = useState();
   const [message, setMessage] = useState();
