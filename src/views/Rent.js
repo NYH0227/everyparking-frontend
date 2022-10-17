@@ -43,7 +43,7 @@ const Rent = () => {
       <DatePicker
         selected={startTime}
         onChange={(date) => setStartTime(date)}
-        locale="pt-BR"
+        locale="ko"
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}

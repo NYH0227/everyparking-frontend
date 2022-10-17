@@ -19,8 +19,6 @@ const { kakao } = window;
 
 const MyPlace = () => {
 
-  // 클릭 주소
-
   const [placeName, setPlaceName] = useState();
   const [mapAddr, setMapAddr] = useState();
   const [message, setMessage] = useState();
@@ -36,24 +34,49 @@ const MyPlace = () => {
 
 
   useEffect(() => {
-    var mapContainer = document.getElementById("myMap"),
+    let mapContainer = document.getElementById("myMap"),
       mapOption = {
         center: new kakao.maps.LatLng(37.4788363460667, 126.753432165028),
         level: 4 // 지도의 확대 레벨
       };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption);
+    let map = new kakao.maps.Map(mapContainer, mapOption);
+    let marker = new kakao.maps.Marker()
 
     var geocoder = new kakao.maps.services.Geocoder();
-    geocoder.addressSearch(input, function(result, status) {
 
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+      searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          let latlng = mouseEvent.latLng;
+
+          marker.setPosition(mouseEvent.latLng);
+          marker.setMap(map);
+          map.panTo(mouseEvent.latLng)
+
+          try{
+            setMapAddr(result[0].road_address.address_name)
+          }catch(e){
+            setMapAddr("")
+          }
+
+          setX(latlng.getLng())
+          setY(latlng.getLat())
+
+        }
+      });
+    });
+    function searchDetailAddrFromCoords(coords, callback) {
+      geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+    }
+
+    geocoder.addressSearch(input, function(result, status) {
       setX(result[0].x);
       setY(result[0].y);
 
       if (status === kakao.maps.services.Status.OK) {
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-        var callback = function(result, status) {
+        let callback = function(result, status) {
           if (status === kakao.maps.services.Status.OK) {
             console.log("주소는", result[0].address.address_name);
             setMapAddr(result[0].address.address_name);
@@ -61,13 +84,16 @@ const MyPlace = () => {
         };
         geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 
-        var marker = new kakao.maps.Marker({
+        let marker = new kakao.maps.Marker({
           map: map,
           position: coords
         });
 
         map.setCenter(coords, marker);
-
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+          let latlng = mouseEvent.latLng;
+          marker.setPosition(latlng);
+        });
       }
     });
   }, [input]);
@@ -92,6 +118,9 @@ const MyPlace = () => {
   });
 
   const handleAddPlace = () => {
+
+    console.log(x_pos)
+    console.log(y_pos)
 
     ParkingService.postAddPlace(mapAddr, x_pos, y_pos, message, placeName, imgUrl, carSize)
       .then( (res) => {
