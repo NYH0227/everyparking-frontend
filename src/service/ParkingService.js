@@ -23,10 +23,6 @@ class ParkingService {
     });
   }
 
-  formatTime(time) {
-    return time.setMinutes(0).setSeconds(0).toISOString();
-  }
-
     /** 도시 리스트 받아오기 */
     getCities(){
         return axios.get(SERVER_PATH+"/api/city")
