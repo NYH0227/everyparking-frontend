@@ -366,7 +366,6 @@ const Dashboard = () => {
                   ))}
 
                   <div className="mb-5"></div>
-
                   {progressGroupExample3.map((item, index) => (
                     <div className="progress-group" key={index}>
                       <div className="progress-group-header">

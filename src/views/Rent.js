@@ -13,7 +13,7 @@ const Rent = () => {
   const [myPlaces, setMyPlaces] = useState([]);
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [cost, setCost] = useState();
+  const [cost, setCost] = useState(0);
   const [message, setMessage] = useState();
   const [placeId, setPlaceId] = useState();
   const [placeSize, setPlaceSize] = useState("");
@@ -111,7 +111,7 @@ const Rent = () => {
                         />
                         <div className="ms-3">
                           <p className="fw-bold mb-1">{item.name}</p>
-                          <p className="text-muted mb-0">{item.addr}</p>
+                          <p className="text-muted mb-0">{item.addr.split(":").map((x) => x+" ")}</p>
                         </div>
                       </div>
                     </td>
@@ -157,9 +157,7 @@ const Rent = () => {
                   <EndTimepicker />
                 </td>
                 <td>
-                  <CFormInput type="text" placeholder="0" value={cost} onChange={(e) => {
-                    setCost(e.target.value);
-                  }} />
+                  <CFormInput type="text" value={cost} onChange={(e) => setCost(e.target.value)} />
                 </td>
                 <td>
                   <CFormInput type="text" placeholder="" value={placeSize} disabled onChange={(e) => {
