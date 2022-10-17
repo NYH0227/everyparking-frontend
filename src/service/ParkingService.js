@@ -21,9 +21,6 @@ class ParkingService {
         data : data
       })
     }
-    formatTime(time){
-      return time.setMinutes(0).setSeconds(0).toISOString()
-    }
 
     /** 도시 리스트 받아오기 */
     getCities(){
