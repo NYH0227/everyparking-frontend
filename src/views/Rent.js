@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ParkingService from "../service/ParkingService";
-import { MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
-import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody, MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CButton, CFormInput, CFormLabel } from "@coreui/react";
 
-
-// 장소, 빌리기, 등록 취소
-
-// RentStatus
-// waiting, pending, inUse
 
 const Rent = () => {
 
@@ -20,7 +14,7 @@ const Rent = () => {
   const [endTime, setEndTime] = useState(new Date());
   const [cost, setCost] = useState(1000);
   const [message, setMessage] = useState("");
-  const [placeId, setPlaceId] = useState();
+  const [placeId, setPlaceId] = useState(0);
   const [placeSize, setPlaceSize] = useState("");
   const [rendering,setRendering] = useState(true)
 
@@ -70,8 +64,6 @@ const Rent = () => {
   };
 
   const handleDataOnClick = () => {
-
-
     ParkingService.postRentPlaceData(startTime.toISOString(), endTime.toISOString(), cost, message, placeId)
       .then((res) => {
         console.log(res);
@@ -79,8 +71,8 @@ const Rent = () => {
         Swal.fire(res.data.message, "", "success");
 
         setMessage("");
-        setCost("");
-        setPlaceId("");
+        setCost(0);
+        setPlaceId(0);
         setPlaceSize("");
       })
       .catch((err) => {
@@ -96,7 +88,7 @@ const Rent = () => {
         setRendering(!rendering);
         Swal.fire(res.data.message, "", "success");
       })
-      .catch((e) => {})
+      .catch((e) => {console.log(e)})
   }
 
   return (
@@ -137,21 +129,17 @@ const Rent = () => {
                     </td>
 
                     <td>
-                      {item.placeStatus === "pending" ?
-                        <CButton color="danger" value={item.id} onClick={(e) => handleCancleOnclick(item.id)
-                                 }>취소하기</CButton>
-                        :
+                      {item.placeStatus === "waiting" && item.id.toString() === placeId ?
+                        <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton> : ""}
+                      {item.placeStatus === "waiting" && item.id.toString() !== placeId ?
+                        <CButton color="success" value={item.id} disabled={item.borrow}
+                                 onClick={(e) => {
+                                   setPlaceSize(item.placeSize);
+                                   setPlaceId(e.target.value);
+                                 }}>선택</CButton> : ""}
 
-                        item.id.toString() === placeId ?
-                          <CButton color="info" value={item.id}
-                                   onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
-                          :
-                          <CButton color="success" value={item.id} disabled={item.borrow}
-                                   onClick={(e) => {
-                                     setPlaceSize(item.placeSize);
-                                     setPlaceId(e.target.value);
-                                   }}>선택</CButton>
-                      }
+                      {item.placeStatus === "pending" ? <CButton color="danger" onClick={() => handleCancleOnclick(item.id)}>취소하기</CButton> : ""}
+                      {item.placeStatus === "inUse" ? <CButton color="danger" disabled={true} onClick={() => handleCancleOnclick(item.id)}>취소하기</CButton> : ""}
 
                     </td>
                   </tr>)}
@@ -193,17 +181,15 @@ const Rent = () => {
         </MDBAccordionItem>
 
         <MDBAccordionItem collapseId={3} headerTitle="등록하기">
-
           <div className="mb-3">
             <CFormLabel htmlFor="validationTextarea" className="form-label">주의사항</CFormLabel>
             <CFormInput placeholder="상대방에게 보낼 메세지를 남겨주세요." type="text" value={message}
                         onChange={(e) => setMessage(e.target.value)}></CFormInput>
           </div>
-          <CButton color="success" onClick={handleDataOnClick}>등록하기</CButton>
 
+          <CButton color="success" onClick={handleDataOnClick}>등록하기</CButton>
         </MDBAccordionItem>
       </MDBAccordion>
-
 
     </div>
   );
