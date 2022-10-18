@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CCard, CCardBody, CCardHeader, CCol, CRow, CListGroupItem, CListGroup } from "@coreui/react";
-import ParkingService from "../service/ParkingService";
 
 const Borrow = () => {
 
   const [places,setPlaces] = useState([])
-
-  // useEffect(()=>{
-  //   ParkingService.getPlaces()
-  //     .then((res) => {
-  //       console.log(res)
-  //       //setPlaces(res.data)
-  //     })
-  //     .catch((err) => console.log(err))
-  // },[])
-
 
 
   return (

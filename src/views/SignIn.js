@@ -34,16 +34,13 @@ function SignIn() {
 
                 Swal.fire(res.data.message,"","success")
                 window.location.href = CLIENT_PATH
-                history("/dashboard")
+                history("/Home")
                 }
             )
             .catch((err) => Swal.fire(err.response.data.message,"","error"))
     }
 
     return (
-
-
-
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
