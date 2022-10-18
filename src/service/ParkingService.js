@@ -55,15 +55,22 @@ class ParkingService {
       })
     }
 
-
     getBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
-
       return this.addHeader("post","/api/borrow/recommend",{
         "mapX" : myMapX,
         "mapY" : myMapY,
         "carNumber" : carNumber,
         "startTime" : startTime,
         "endTime" : endTime
+      })
+    }
+
+    postBorrow(rentId,startTime,endTime,carNumber){
+      return this.addHeader("post","/api/borrow/",{
+        "rentId" : rentId,
+        "startTime" : startTime,
+        "endTime" : endTime,
+        "carNumber" : carNumber
       })
     }
 
@@ -92,6 +99,11 @@ class ParkingService {
         "imgUrl" : imgUrl === "" ? DEFAULT_PLACE_IMG : imgUrl,
         "size" : carSize
       })
+    }
+    /** 장소 취소 */
+    cancelPlace(placeId){
+      return this.addHeader("put","/api/rent/"+placeId)
+
     }
 
     /** 회원가입 */

@@ -8,20 +8,25 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CButton, CFormInput, CFormLabel } from "@coreui/react";
 
 
+// 장소, 빌리기, 등록 취소
+
+// RentStatus
+// waiting, pending, inUse
+
 const Rent = () => {
 
   const [myPlaces, setMyPlaces] = useState([]);
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
-  const [cost, setCost] = useState();
-  const [message, setMessage] = useState();
+  const [cost, setCost] = useState(1000);
+  const [message, setMessage] = useState("");
   const [placeId, setPlaceId] = useState();
   const [placeSize, setPlaceSize] = useState("");
-
+  const [rendering,setRendering] = useState(true)
 
   useEffect(() => {
     getMyPlacessFuc();
-  }, []);
+  }, [rendering]);
 
   const getMyPlacessFuc = () => {
     ParkingService.getMyPlaces()
@@ -43,7 +48,6 @@ const Rent = () => {
       <DatePicker
         selected={startTime}
         onChange={(date) => setStartTime(date)}
-        locale="ko"
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}
@@ -57,7 +61,6 @@ const Rent = () => {
       <DatePicker
         selected={endTime}
         onChange={(date) => setEndTime(date)}
-        locale="ko"
         showTimeSelect
         timeFormat="p"
         timeIntervals={60}
@@ -67,6 +70,8 @@ const Rent = () => {
   };
 
   const handleDataOnClick = () => {
+
+
     ParkingService.postRentPlaceData(startTime.toISOString(), endTime.toISOString(), cost, message, placeId)
       .then((res) => {
         console.log(res);
@@ -83,6 +88,16 @@ const Rent = () => {
         Swal.fire(err.response.data.errorList[0].message, "", "error");
       });
   };
+
+  const handleCancleOnclick = (placeId) => {
+    ParkingService.cancelPlace(placeId)
+      .then((res) => {
+        console.log(res);
+        setRendering(!rendering);
+        Swal.fire(res.data.message, "", "success");
+      })
+      .catch((e) => {})
+  }
 
   return (
     <div>
@@ -111,27 +126,33 @@ const Rent = () => {
                         />
                         <div className="ms-3">
                           <p className="fw-bold mb-1">{item.name}</p>
-                          <p className="text-muted mb-0">{item.addr}</p>
+                          <p className="text-muted mb-0">{item.addr.split(":").map(x => x + " ")}</p>
                         </div>
                       </div>
                     </td>
                     <td>
-                      {item.borrow ? <MDBBadge color="danger" pill>
-                        등록중
-                      </MDBBadge> : <MDBBadge color="info" pill>
-                        등록가능
-                      </MDBBadge>}
+                      {item.placeStatus === "waiting" ? <MDBBadge color="success" pill>등록가능</MDBBadge> : ""}
+                      {item.placeStatus === "pending" ? <MDBBadge color="warning" pill>등록중</MDBBadge> : ""}
+                      {item.placeStatus === "inUse" ? <MDBBadge color="danger" pill>이용중</MDBBadge> : ""}
                     </td>
+
                     <td>
-                      {item.id === placeId ?
-                        <CButton color="info" value={item.id} onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
+                      {item.placeStatus === "pending" ?
+                        <CButton color="danger" value={item.id} onClick={(e) => handleCancleOnclick(item.id)
+                                 }>취소하기</CButton>
                         :
-                        <CButton color="success" value={item.id} disabled={item.borrow}
-                                 onClick={(e) => {
-                                   setPlaceSize(item.placeSize);
-                                   setPlaceId(e.target.value);
-                                 }}>선택</CButton>
+
+                        item.id.toString() === placeId ?
+                          <CButton color="info" value={item.id}
+                                   onClick={(e) => setPlaceId(e.target.value)}>선택중</CButton>
+                          :
+                          <CButton color="success" value={item.id} disabled={item.borrow}
+                                   onClick={(e) => {
+                                     setPlaceSize(item.placeSize);
+                                     setPlaceId(e.target.value);
+                                   }}>선택</CButton>
                       }
+
                     </td>
                   </tr>)}
             </MDBTableBody>
@@ -144,7 +165,7 @@ const Rent = () => {
               <tr>
                 <th scope="col">시작시간</th>
                 <th scope="col">종료시간</th>
-                <th scope="col">비용</th>
+                <th scope="col">시간당 비용</th>
                 <th scope="col">주차장 크기</th>
               </tr>
             </MDBTableHead>
@@ -157,7 +178,7 @@ const Rent = () => {
                   <EndTimepicker />
                 </td>
                 <td>
-                  <CFormInput type="text" placeholder="0" value={cost} onChange={(e) => {
+                  <CFormInput type="text" placeholder="1000" value={cost} onChange={(e) => {
                     setCost(e.target.value);
                   }} />
                 </td>

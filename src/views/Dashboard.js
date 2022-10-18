@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
 import {
   CAvatar,
@@ -22,20 +22,10 @@ import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
 import CIcon from '@coreui/icons-react'
 import {
-  cibCcAmex,
-  cibCcApplePay,
   cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
   cibGoogle,
   cibFacebook,
   cibLinkedin,
-  cifBr,
-  cifEs,
-  cifFr,
-  cifIn,
-  cifPl,
   cifUs,
   cibTwitter,
   cilCloudDownload,
@@ -43,11 +33,17 @@ import {
   cilUser,
   cilUserFemale,
 } from '@coreui/icons'
+import { MDBBadge, MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
+import ParkingService from "../service/ParkingService";
 
 
 const Dashboard = () => {
-  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
+  const [myPlaces, setMyPlaces] = useState([]);
+  const [myCars, setMyCars] = useState([]);
+
+
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -94,80 +90,27 @@ const Dashboard = () => {
       },
       payment: { name: 'Mastercard', icon: cibCcMastercard },
       activity: '10 sec ago',
-    },
-    {
-      avatar: { status: 'danger' },
-      user: {
-        name: 'Avram Tarasios',
-        new: false,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'Brazil', flag: cifBr },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'info',
-      },
-      payment: { name: 'Visa', icon: cibCcVisa },
-      activity: '5 minutes ago',
-    },
-    {
-      avatar: { status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2021' },
-      country: { name: 'India', flag: cifIn },
-      usage: {
-        value: 74,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'warning',
-      },
-      payment: { name: 'Stripe', icon: cibCcStripe },
-      activity: '1 hour ago',
-    },
-    {
-      avatar: { status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2021' },
-      country: { name: 'France', flag: cifFr },
-      usage: {
-        value: 98,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'danger',
-      },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
-    },
-    {
-      avatar: { status: 'success' },
-      user: {
-        name: 'Agapetus Tadeáš',
-        new: true,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'Spain', flag: cifEs },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'primary',
-      },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcAmex },
-      activity: 'Last week',
-    },
+    }
   ]
+  useEffect(() => {
+
+    ParkingService.getMyPlaces()
+      .then((res) => {
+        setMyPlaces(res.data.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    ParkingService.getMyCar()
+      .then((res) => {
+        setMyCars(res.data.data);
+        console.log(res.data)
+      })
+      .catch((err) => {console.log(err)})
+
+
+  }, []);
+
 
   return (
     <>
@@ -185,12 +128,12 @@ const Dashboard = () => {
                 <CIcon icon={cilCloudDownload} />
               </CButton>
               <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
+                {["Day", "Month", "Year"].map((value) => (
                   <CButton
                     color="outline-secondary"
                     key={value}
                     className="mx-0"
-                    active={value === 'Month'}
+                    active={value === "Month"}
                   >
                     {value}
                   </CButton>
@@ -199,15 +142,15 @@ const Dashboard = () => {
             </CCol>
           </CRow>
           <CChartLine
-            style={{ height: '300px', marginTop: '40px' }}
+            style={{ height: "300px", marginTop: "40px" }}
             data={{
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              labels: ["January", "February", "March", "April", "May", "June", "July"],
               datasets: [
                 {
-                  label: 'My First dataset',
-                  backgroundColor: hexToRgba(getStyle('--cui-info'), 10),
-                  borderColor: getStyle('--cui-info'),
-                  pointHoverBackgroundColor: getStyle('--cui-info'),
+                  label: "My First dataset",
+                  backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
+                  borderColor: getStyle("--cui-info"),
+                  pointHoverBackgroundColor: getStyle("--cui-info"),
                   borderWidth: 2,
                   data: [
                     random(50, 200),
@@ -216,15 +159,15 @@ const Dashboard = () => {
                     random(50, 200),
                     random(50, 200),
                     random(50, 200),
-                    random(50, 200),
+                    random(50, 200)
                   ],
-                  fill: true,
+                  fill: true
                 },
                 {
-                  label: 'My Second dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-success'),
-                  pointHoverBackgroundColor: getStyle('--cui-success'),
+                  label: "My Second dataset",
+                  backgroundColor: "transparent",
+                  borderColor: getStyle("--cui-success"),
+                  pointHoverBackgroundColor: getStyle("--cui-success"),
                   borderWidth: 2,
                   data: [
                     random(50, 200),
@@ -233,53 +176,53 @@ const Dashboard = () => {
                     random(50, 200),
                     random(50, 200),
                     random(50, 200),
-                    random(50, 200),
-                  ],
+                    random(50, 200)
+                  ]
                 },
                 {
-                  label: 'My Third dataset',
-                  backgroundColor: 'transparent',
-                  borderColor: getStyle('--cui-danger'),
-                  pointHoverBackgroundColor: getStyle('--cui-danger'),
+                  label: "My Third dataset",
+                  backgroundColor: "transparent",
+                  borderColor: getStyle("--cui-danger"),
+                  pointHoverBackgroundColor: getStyle("--cui-danger"),
                   borderWidth: 1,
                   borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
-                },
-              ],
+                  data: [65, 65, 65, 65, 65, 65, 65]
+                }
+              ]
             }}
             options={{
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  display: false,
-                },
+                  display: false
+                }
               },
               scales: {
                 x: {
                   grid: {
-                    drawOnChartArea: false,
-                  },
+                    drawOnChartArea: false
+                  }
                 },
                 y: {
                   ticks: {
                     beginAtZero: true,
                     maxTicksLimit: 5,
                     stepSize: Math.ceil(250 / 5),
-                    max: 250,
-                  },
-                },
+                    max: 250
+                  }
+                }
               },
               elements: {
                 line: {
-                  tension: 0.4,
+                  tension: 0.4
                 },
                 point: {
                   radius: 0,
                   hitRadius: 10,
                   hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
+                  hoverBorderWidth: 3
+                }
+              }
             }}
           />
         </CCardBody>
@@ -301,7 +244,149 @@ const Dashboard = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
+            <CCardHeader>
+              <strong>Services in Use</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CTable align="middle" className="mb-0 border" hover responsive>
+                <CTableHead color="light">
+                  <CTableRow>
+                    <CTableHeaderCell className="text-center">
+                      <CIcon icon={cilPeople} />
+                    </CTableHeaderCell>
+                    <CTableHeaderCell>장소</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">차</CTableHeaderCell>
+                    <CTableHeaderCell>이용시간</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">가격</CTableHeaderCell>
+                    <CTableHeaderCell>Activity</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {tableExample.map((item, index) => (
+                    <CTableRow v-for="item in tableItems" key={index}>
+                      <CTableDataCell className="text-center">
+                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
+                      </CTableDataCell>
+
+                      <CTableDataCell>
+                        <div>{item.user.name}</div>
+                        <div className="small text-medium-emphasis">
+                          <span>{item.user.new ? "New" : "Recurring"}</span> | Registered:{" "}
+                          {item.user.registered}
+                        </div>
+                      </CTableDataCell>
+
+                      <CTableDataCell className="text-center">
+
+                      </CTableDataCell>
+
+                      <CTableDataCell>
+                        <div className="clearfix">
+                          <div className="float-start">
+                            <strong>{item.usage.value}%</strong>
+                          </div>
+                          <div className="float-end">
+                            <small className="text-medium-emphasis">{item.usage.period}</small>
+                          </div>
+                        </div>
+                        <CProgress thin color={item.usage.color} value={item.usage.value} />
+                      </CTableDataCell>
+
+                      <CTableDataCell className="text-center">
+                        0원
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <CButton color="success" onClick={() => {
+                          console.log()
+                        }}>사용 종료</CButton>
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+
+
+
+
+      <CRow>
+        <CCol xs>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>Thing of possession</strong>
+            </CCardHeader>
+            <CCardBody>
+              <MDBTable align="middle" className="mb-5">
+                <MDBTableHead>
+                  <tr>
+                    <th scope="col">장소</th>
+                    <th scope="col">상태</th>
+                  </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                  {myPlaces &&
+                    myPlaces.map((item) =>
+                      <tr key={item.id} id={item.id}>
+                        <td>
+                          <div className="d-flex align-items-center">
+                            <img
+                              src={item.imgUrl}
+                              alt=""
+                              style={{ width: "100px", height: "100px" }}
+                              className="rounded-circle"
+                            />
+                            <div className="ms-3">
+                              <p className="fw-bold mb-1">{item.name}</p>
+                              <p className="text-muted mb-0">{item.addr.split(":").map(x => x + " ")}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          {item.placeStatus === "waiting" ? <MDBBadge color="success" pill>등록가능</MDBBadge> : ""}
+                          {item.placeStatus === "pending" ? <MDBBadge color="warning" pill>등록중</MDBBadge> : ""}
+                          {item.placeStatus === "inUse" ? <MDBBadge color="danger" pill>이용중</MDBBadge> : ""}
+                        </td>
+                      </tr>
+                    )}
+                </MDBTableBody>
+                <br/>
+
+                <MDBTableHead>
+                  <tr>
+                    <th scope="col">자동차</th>
+                    <th scope="col">차 번호</th>
+                  </tr>
+                </MDBTableHead>
+                <MDBTableBody>
+                  {myCars &&
+                    myCars.map((item, idx) =>
+                      <tr key={item.idx} id={item.idx}>
+                        <td>
+                          <p className="fw-normal mb-1">{item.carModel}</p>
+                        </td>
+                        <td>
+                          <p id="carN" className="fw-normal mb-1">{item.carNumber}</p>
+                        </td>
+                      </tr>)}
+                </MDBTableBody>
+
+              </MDBTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+      {/****************************/}
+
+
+      <CRow>
+        <CCol xs>
+          <CCard className="mb-4">
+            <CCardHeader>Traffic {" & "} Sales</CCardHeader>
             <CCardBody>
               <CRow>
                 <CCol xs={12} md={6} xl={6}>
@@ -351,7 +436,6 @@ const Dashboard = () => {
                   </CRow>
 
                   <hr className="mt-0" />
-
                   {progressGroupExample2.map((item, index) => (
                     <div className="progress-group mb-4" key={index}>
                       <div className="progress-group-header">
@@ -366,14 +450,13 @@ const Dashboard = () => {
                   ))}
 
                   <div className="mb-5"></div>
-
                   {progressGroupExample3.map((item, index) => (
                     <div className="progress-group" key={index}>
                       <div className="progress-group-header">
                         <CIcon className="me-2" icon={item.icon} size="lg" />
                         <span>{item.title}</span>
                         <span className="ms-auto fw-semibold">
-                          {item.value}{' '}
+                          {item.value}{" "}
                           <span className="text-medium-emphasis small">({item.percent}%)</span>
                         </span>
                       </div>
@@ -384,66 +467,13 @@ const Dashboard = () => {
                   ))}
                 </CCol>
               </CRow>
-
-              <br />
-
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell>User</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Country</CTableHeaderCell>
-                    <CTableHeaderCell>Usage</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">Payment Method</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-medium-emphasis">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="clearfix">
-                          <div className="float-start">
-                            <strong>{item.usage.value}%</strong>
-                          </div>
-                          <div className="float-end">
-                            <small className="text-medium-emphasis">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-medium-emphasis">Last login</div>
-                        <strong>{item.activity}</strong>
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
-              </CTable>
             </CCardBody>
+
           </CCard>
         </CCol>
       </CRow>
     </>
-  )
+  );
 }
 
 export default Dashboard
