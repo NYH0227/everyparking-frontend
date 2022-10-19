@@ -10,7 +10,6 @@ const Signout = () => {
     localStorage.removeItem("jwt")
     window.location.href = CLIENT_PATH
     history("/")
-
     return ""
   }
 

@@ -55,6 +55,7 @@ class ParkingService {
       })
     }
 
+    /** rent에 등록된 데이터 검색 */
     getBorrowData(carNumber,myMapX,myMapY,startTime,endTime){
       return this.addHeader("post","/api/borrow/recommend",{
         "mapX" : myMapX,
@@ -65,6 +66,7 @@ class ParkingService {
       })
     }
 
+    /** Borrow 요청 */
     postBorrow(rentId,startTime,endTime,carNumber){
       return this.addHeader("post","/api/borrow/",{
         "rentId" : rentId,
@@ -73,7 +75,7 @@ class ParkingService {
         "carNumber" : carNumber
       })
     }
-
+    /** 소유한 차 받기 */
     getMyCar(){
       return this.addHeader("get","/api/car/me")
     }
@@ -103,7 +105,10 @@ class ParkingService {
     /** 장소 취소 */
     cancelPlace(placeId){
       return this.addHeader("put","/api/rent/"+placeId)
-
+    }
+    /** Borrow 취소 */
+    cancelBorrow(borrowId){
+      return this.addHeader("put","/api/borrow/"+borrowId)
     }
 
     /** 회원가입 */

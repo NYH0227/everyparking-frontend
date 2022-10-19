@@ -41,7 +41,12 @@ const Dashboard = () => {
 
   const [myPlaces, setMyPlaces] = useState([]);
   const [myCars, setMyCars] = useState([]);
+  const [allData,setAllData] = useState([]);
 
+
+  const handleBorrowCancleOnClick = (borrowId) => {
+    ParkingService.cancelBorrow(borrowId)
+  }
 
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
   const progressExample = [
@@ -51,7 +56,6 @@ const Dashboard = () => {
     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
   ]
-
   const progressGroupExample1 = [
     { title: 'Monday', value1: 34, value2: 78 },
     { title: 'Tuesday', value1: 56, value2: 94 },
@@ -61,19 +65,16 @@ const Dashboard = () => {
     { title: 'Saturday', value1: 53, value2: 82 },
     { title: 'Sunday', value1: 9, value2: 69 },
   ]
-
   const progressGroupExample2 = [
     { title: 'Male', icon: cilUser, value: 53 },
     { title: 'Female', icon: cilUserFemale, value: 43 },
   ]
-
   const progressGroupExample3 = [
     { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
     { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
     { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
-
   const tableExample = [
     {
       avatar: { status: 'success' },
@@ -92,6 +93,7 @@ const Dashboard = () => {
       activity: '10 sec ago',
     }
   ]
+
   useEffect(() => {
 
     ParkingService.getMyPlaces()
@@ -295,9 +297,7 @@ const Dashboard = () => {
                         0원
                       </CTableDataCell>
                       <CTableDataCell>
-                        <CButton color="success" onClick={() => {
-                          console.log()
-                        }}>사용 종료</CButton>
+                        <CButton color="success" onClick={() => handleBorrowCancleOnClick(item.borrowId)}>사용 종료</CButton>
                       </CTableDataCell>
                     </CTableRow>
                   ))}
