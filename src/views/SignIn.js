@@ -34,7 +34,7 @@ function SignIn() {
 
                 Swal.fire(res.data.message,"","success")
                 window.location.href = CLIENT_PATH
-                history("/Home")
+                history("/Dashboard")
                 }
             )
             .catch((err) => Swal.fire(err.response.data.message,"","error"))

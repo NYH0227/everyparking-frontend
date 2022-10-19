@@ -16,23 +16,21 @@ import {
 } from "@coreui/react";
 
 function SignUp() {
-    const [email,setEmail] = useState()
-    const [password,setPassword] = useState()
-    const [tel,setTel] = useState()
-    const [nickname,setNickname] = useState()
-    const [city,setCity] = useState()
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const [tel,setTel] = useState("")
+    const [nickname,setNickname] = useState("")
+    const [city,setCity] = useState("")
     const [cities,setCities] = useState([])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         ParkingService.getCities()
             .then((res) => setCities(res.data))
             .catch((err) => console.log(err))
     },[])
 
     const handleSignUpOnclick = () => {
-        console.log(city)
-
         ParkingService.postSignUp(city,email,nickname,password,tel)
             .then((res) => {
 
@@ -45,7 +43,6 @@ function SignUp() {
 
             }).catch((err) => {
                 console.log(err)
-
                 Swal.fire({
                     icon: 'error',
                     title: '회원가입 실패',
@@ -53,9 +50,7 @@ function SignUp() {
                     footer: err.message
                 })
             })
-
     }
-
 
   return (
     <CRow>

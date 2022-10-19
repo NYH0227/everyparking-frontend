@@ -18,9 +18,9 @@ import Swal from "sweetalert2";
 const MyCar = () => {
 
   const [size,setSize] = useState([])
-  const [carNum,setCarNum] = useState()
-  const [carModel,setCarModel] = useState()
-  const [carSize,setCarSize] = useState()
+  const [carNum,setCarNum] = useState("")
+  const [carModel,setCarModel] = useState("")
+  const [carSize,setCarSize] = useState("")
 
   useEffect(()=>{
     ParkingService.getCarType()

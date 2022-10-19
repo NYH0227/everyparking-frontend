@@ -9,7 +9,7 @@ const _nav = ([
   {
     component: CNavItem,
     name: 'Home',
-    to: '/Home',
+    to: '/Dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     badge: {
       color: 'info',
