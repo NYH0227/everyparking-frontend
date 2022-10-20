@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const CLIENT_PATH = "http://localhost:3000"
-export const SERVER_PATH = "http://localhost:7777"
+// export const CLIENT_PATH = "http://localhost:3000"
+// export const SERVER_PATH = "http://localhost:7777"
 
-// export const SERVER_PATH = "http://192.168.222.181:7777"
-// export const CLIENT_PATH = "http://192.168.222.38:3000"
+export const SERVER_PATH = "http://192.168.222.181:7777"
+export const CLIENT_PATH = "http://192.168.222.38:3000"
 
 export const DEFAULT_PLACE_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==";
 
@@ -75,9 +75,14 @@ class ParkingService {
         "carNumber" : carNumber
       })
     }
+
     /** 소유한 차 받기 */
     getMyCar(){
       return this.addHeader("get","/api/car/me")
+    }
+
+    getPoint(){
+      return this.addHeader("put","/api/users")
     }
 
 
@@ -129,6 +134,11 @@ class ParkingService {
             "password": password
         })
     }
+
+    userData(){
+      return this.addHeader("get","/api/users/me")
+    }
+
 }
 
 export default new ParkingService();
