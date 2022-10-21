@@ -13,30 +13,33 @@ import ParkingService from "../service/ParkingService";
 
 const DashMyInfo = (x) => {
 
-  const [input,setInput] = useState("")
+  const [inputEmail,setInputEmail] = useState("")
+  const [inputPhone,setInputPhone] = useState("")
+  const [inputIntroduce,setInputIntroduce] = useState("")
   const [updateTel, setUpdateTel] = useState(false)
   const [updateEmail, setUpdateEmail] = useState(false)
   const [updateIntroduce, setUpdateIntroduce] = useState(false)
   const [updateCity, setUpdateCity] = useState(false)
+
   const [cities,setCities] = useState([])
   const [myPoint,setMyPoint] = useState(0)
-
-
-  useEffect(() => {
-    ParkingService.getCities()
-      .then((res) => setCities(res.data))
-      .catch((err) => console.log(err))
-  },[])
 
 
   const getPoint = () => {
     ParkingService.getPoint()
       .then((res) => {
         console.log(res);
-        console.log("ss",res.data.data.point);
         setMyPoint(res.data.data.point)
       })
       .catch((err) => console.log(err));
+  }
+
+  function phoneNumber(value) {
+    if(value) {
+      value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
+      return "+82 " + value.slice(1,value.length);
+    }
+    return value
   }
 
   return (
@@ -59,7 +62,7 @@ const DashMyInfo = (x) => {
                 </MDBListGroupItem>
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> +82 {x.tel}
+                    <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> {phoneNumber(x.tel)}
                   </div>
 
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
@@ -69,14 +72,13 @@ const DashMyInfo = (x) => {
                       <CModalTitle>휴대전화 번호 수정</CModalTitle>
                     </CModalHeader>
                     <CModalBody>
-                      <CFormInput type="text" value={input} onChange={(e) => setInput(e.target.value)}></CFormInput>
+                      <CFormInput type="text" value={inputPhone} onChange={(e) => setInputPhone(e.target.value)}></CFormInput>
                     </CModalBody>
                     <CModalFooter>
                       <CButton color="secondary" onClick={() => setUpdateTel(false)}>Close</CButton>
                       <CButton color="primary" onClick={() => {
-                        console.log(input);
                         setUpdateTel(false);
-                        setInput("");
+                        setInputPhone("");
                       }}>Save</CButton>
 
                     </CModalFooter>
@@ -94,15 +96,14 @@ const DashMyInfo = (x) => {
                       <CModalTitle>이메일 수정</CModalTitle>
                     </CModalHeader>
                     <CModalBody>
-                      <CFormInput type="email" value={input} onChange={(e) => setInput(e.target.value)}></CFormInput>
+                      <CFormInput type="email" value={inputEmail} onChange={(e) => setInputEmail(e.target.value)}></CFormInput>
                     </CModalBody>
                     <CModalFooter>
                       <CButton color="secondary" onClick={() => setUpdateEmail(false)}>Close</CButton>
                       <CButton color="primary" onClick={() => {
-                        console.log(input);
 
                         setUpdateEmail(false);
-                        setInput("");
+                        setInputEmail("");
                       }}>Save</CButton>
 
                     </CModalFooter>
@@ -114,7 +115,14 @@ const DashMyInfo = (x) => {
                     <CIcon icon={cilLocationPin} /><strong> 지역 </strong> {x.city}
                   </div>
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
-                           onClick={() => setUpdateCity(!updateCity)}>수정</CButton>
+                           onClick={() => {
+                             setUpdateCity(!updateCity);
+                             if(cities.length === 0) {
+                               ParkingService.getCities()
+                                 .then((res) => setCities(res.data === undefined || null ? [] : res.data))
+                                 .catch((err) => console.log(err))
+                             }
+                           }}>수정</CButton>
                   <CModal alignment="center" visible={updateCity} onClose={() => setUpdateCity(false)}>
                     <CModalHeader onClose={() => setUpdateCity(false)}>
                       <CModalTitle>지역 수정</CModalTitle>
@@ -135,7 +143,7 @@ const DashMyInfo = (x) => {
 
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilMoney} /><strong> 소지금 </strong> {myPoint===0 ? x.point : myPoint}원
+                    <CIcon icon={cilMoney} /><strong> 소지금 </strong> {myPoint === 0 ? x.point : myPoint}원
                   </div>
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
                            onClick={() => getPoint()}>충전</CButton>
@@ -152,15 +160,14 @@ const DashMyInfo = (x) => {
                       <CModalTitle>자기소개 수정</CModalTitle>
                     </CModalHeader>
                     <CModalBody>
-                      <CFormInput type="text" value={input} onChange={(e) => setInput(e.target.value)}></CFormInput>
+                      <CFormInput type="text" value={inputIntroduce} onChange={(e) => setInputIntroduce(e.target.value)}></CFormInput>
                     </CModalBody>
                     <CModalFooter>
                       <CButton color="secondary" onClick={() => setUpdateIntroduce(false)}>Close</CButton>
                       <CButton color="primary" onClick={() => {
-                        console.log(input);
 
                         setUpdateIntroduce(false);
-                        setInput("");
+                        setInputIntroduce("");
                       }}>Save</CButton>
 
                     </CModalFooter>
@@ -182,7 +189,6 @@ const DashMyInfo = (x) => {
                     </CDropdownMenu>
                   </CDropdown>
                 </MDBListGroupItem>
-
               </MDBListGroup>
             </MDBContainer>
           </CCardBody>

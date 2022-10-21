@@ -69,8 +69,8 @@ const Home = () => {
 
   return (
     <>
-      {/*<DashMyInfo myCars={myCars} email="n@naver.com" nickName="나영환"*/}
-      {/*            city="서울" tel="010222333" point="20000" introduce="ㅎㅇㅎㅇ"/>*/}
+      <DashMyInfo myCars={myCars} email="n@naver.com" nickName="나영환"
+                  city="서울" tel="01022223333" point="20000" introduce="ㅎㅇㅎㅇ"/>
 
 
       {/*Test*/}

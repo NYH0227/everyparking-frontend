@@ -29,7 +29,6 @@ const Dashboard = () => {
   const [myPlaces, setMyPlaces] = useState([]);
   const [myCars, setMyCars] = useState([]);
   const [userData,setUserData] = useState([]);
-
   const [borrowData,setBorrowData] = useState([]);
 
 
@@ -81,83 +80,8 @@ const Dashboard = () => {
   return (
     <>
       <DashMyInfo myCars={myCars} email={userData.email} nickName={userData.nickname}
-                  city={userData.city} tel={userData.tel} point={userData.point} introduce={userData.introduce}/>
-
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>
-              <strong>기본정보</strong>
-            </CCardHeader>
-            <CCardBody>
-              <MDBContainer>
-                <MDBListGroup style={{ width: "100%" }}>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <strong>{userData.nickname}</strong>님, 환영합니다.
-                      <div className="small text-medium-emphasis">
-                        {userData.email}
-                      </div>
-                    </div>
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> +82 {userData.tel}
-                    </div>
-                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
-
-                  </MDBListGroupItem>
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilEnvelopeClosed} /><strong> 이메일 </strong> {userData.email}
-                    </div>
-                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
-                  </MDBListGroupItem>
-
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilLocationPin} /><strong> 지역 </strong> {userData.city}
-                    </div>
-                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
-                  </MDBListGroupItem>
-
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilMoney} /><strong> 소지금 </strong> {userData.point}원
-                    </div>
-                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
-                  </MDBListGroupItem>
-
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilUser} /><strong> 자기소개 </strong> {userData.introduce}
-                    </div>
-                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
-                  </MDBListGroupItem>
-
-                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                    <div>
-                      <CIcon icon={cilCarAlt} /><strong> 자동차 </strong> 등록된 자동차 {myCars.length}대
-                    </div>
-                    <CDropdown>
-                      <CDropdownToggle color="success" variant="outline" size="sm">보기</CDropdownToggle>
-                      <CDropdownMenu>
-                        {myCars.map((item, idx) =>
-                          <CDropdownItem key={idx}>
-                            {item.carModel+"("+item.carSize+") "+item.carNumber}
-                          </CDropdownItem>
-                        )}
-                      </CDropdownMenu>
-                    </CDropdown>
-                  </MDBListGroupItem>
-
-                </MDBListGroup>
-              </MDBContainer>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-
+                  city={userData.city} tel={userData.tel} point={userData.point} introduce={userData.introduce}
+      />
 
 
       <CRow>
