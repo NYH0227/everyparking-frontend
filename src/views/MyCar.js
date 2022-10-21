@@ -24,7 +24,7 @@ const MyCar = () => {
 
   useEffect(()=>{
     ParkingService.getCarType()
-      .then((res) => setSize(res.data))
+      .then((res) => setSize(res.date === undefined || null ? [] : res.date))
       .catch((err) => console.log(err))
   },[])
 
