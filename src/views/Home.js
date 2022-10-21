@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   CButton,
@@ -9,31 +9,34 @@ import {
   CCardHeader,
   CCol,
   CProgress,
-  CRow,
-} from '@coreui/react'
+  CRow, CTable, CTableBody, CTableHead, CTableHeaderCell, CTableRow,
+} from "@coreui/react";
 
 import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle, hexToRgba } from '@coreui/utils'
 import CIcon from '@coreui/icons-react'
 import {
-  cibCcMastercard,
   cibGoogle,
   cibFacebook,
   cibLinkedin,
-  cifUs,
   cibTwitter,
   cilCloudDownload,
-  cilPeople,
   cilUser,
   cilUserFemale,
-} from '@coreui/icons'
+} from "@coreui/icons";
+import DashMyInfo from "../components/DashMyInfo";
 
 
 const Home = () => {
 
 
+  const [myCars, setMyCars] = useState([
+    {carModel: "아우디", carNumber : "12가1234", carSize: "소형"},
+    {carModel: "아우님", carNumber : "12너1234", carSize: "중형"}
+  ]);
 
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
+
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -64,27 +67,41 @@ const Home = () => {
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
 
-  const tableExample = [
-    {
-      avatar: { status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2021',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2021 - Jul 10, 2021',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
-    }
-  ]
-
   return (
     <>
+      {/*<DashMyInfo myCars={myCars} email="n@naver.com" nickName="나영환"*/}
+      {/*            city="서울" tel="010222333" point="20000" introduce="ㅎㅇㅎㅇ"/>*/}
+
+
+      {/*Test*/}
+      <CRow>
+        <CCol xs>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <strong>등록한 장소</strong>
+            </CCardHeader>
+            <CCardBody>
+              <CTable align="middle" className="mb-0 border" hover responsive>
+                <CTableHead color="light">
+                  <CTableRow>
+                    <CTableHeaderCell className="text-center">s</CTableHeaderCell>
+                    <CTableHeaderCell>장소</CTableHeaderCell>
+                    <CTableHeaderCell>차</CTableHeaderCell>
+                    <CTableHeaderCell>이용시간</CTableHeaderCell>
+                    <CTableHeaderCell>가격</CTableHeaderCell>
+                    <CTableHeaderCell>Activity</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+
+                </CTableBody>
+              </CTable>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+
+
       <CCard className="mb-4">
         <CCardBody>
           <CRow>

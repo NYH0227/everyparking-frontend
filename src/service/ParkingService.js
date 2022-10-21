@@ -12,6 +12,7 @@ export const DEFAULT_PLACE_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQA
 class ParkingService {
 
   addHeader(method, path, data) {
+
     return axios({
       method: method,
       url: SERVER_PATH + path,

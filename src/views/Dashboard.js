@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  CAvatar,
-  CButton,
-  CCard,
-  CCardBody,
-
-  CCardHeader,
-  CCol,
-  CProgress,
-  CRow,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
-} from '@coreui/react'
+  CAvatar, CButton, CCard, CCardBody, CCardHeader,
+  CCol, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle,
+  CProgress, CRow, CTable, CTableBody, CTableDataCell,
+  CTableHead, CTableHeaderCell, CTableRow
+} from "@coreui/react";
 import CIcon from '@coreui/icons-react'
 import {
-  cibCcMastercard,
-  cifUs,
-  cilPeople,
-  cilEnvelopeClosed,cilLocationPin,
-  cilUser,
-  cilScreenSmartphone,
-  cilMoney,
-} from '@coreui/icons'
+  cibCcMastercard, cifUs, cilPeople, cilEnvelopeClosed, cilLocationPin,
+  cilUser, cilScreenSmartphone, cilMoney, cilCarAlt
+} from "@coreui/icons";
 import {
   MDBBadge,
   MDBContainer,
@@ -37,6 +21,7 @@ import {
   MDBTableHead
 } from "mdb-react-ui-kit";
 import ParkingService from "../service/ParkingService";
+import DashMyInfo from "../components/DashMyInfo";
 
 
 const Dashboard = () => {
@@ -51,6 +36,7 @@ const Dashboard = () => {
   const handleBorrowCancleOnClick = (borrowId) => {
     ParkingService.cancelBorrow(borrowId)
   }
+
   const tableExample = [
     {
       avatar: { status: 'success' },
@@ -73,30 +59,35 @@ const Dashboard = () => {
   useEffect(() => {
     ParkingService.userData()
       .then((res) => {
-        console.log("userData",res.data);
-        setMyCars(res.data.cars === undefined || null ? [] : res.data.cars);
-        setMyPlaces(res.data.places === undefined || null ? [] : res.data.places);
+        console.log("userData",res.data.data);
+        setMyCars(res.data.data.cars === undefined || null ? [] : res.data.data.cars);
+        setMyPlaces(res.data.data.places === undefined || null ? [] : res.data.data.places);
         setUserData(res.data.data  === undefined || null ? [] : res.data.data);
-        setBorrowData(res.data.myBorrows === undefined || null ? [] : res.data.myBorrows);
+        setBorrowData(res.data.data.myBorrows === undefined || null ? [] : res.data.data.myBorrows);
+
       })
       .catch((err) => console.log(err))
   }, []);
 
   const getPoint = () => {
     ParkingService.getPoint()
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err))
-
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   }
 
 
   return (
     <>
+      <DashMyInfo myCars={myCars} email={userData.email} nickName={userData.nickname}
+                  city={userData.city} tel={userData.tel} point={userData.point} introduce={userData.introduce}/>
+
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>
-              기본정보
+              <strong>기본정보</strong>
             </CCardHeader>
             <CCardBody>
               <MDBContainer>
@@ -113,35 +104,51 @@ const Dashboard = () => {
                     <div>
                       <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> +82 {userData.tel}
                     </div>
-                    <MDBBadge color="primary">수정</MDBBadge>
+                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
 
                   </MDBListGroupItem>
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                     <div>
                       <CIcon icon={cilEnvelopeClosed} /><strong> 이메일 </strong> {userData.email}
                     </div>
-                    <MDBBadge color="primary">수정</MDBBadge>
+                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
                   </MDBListGroupItem>
 
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                     <div>
                       <CIcon icon={cilLocationPin} /><strong> 지역 </strong> {userData.city}
                     </div>
-                    <MDBBadge color="primary">수정</MDBBadge>
+                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
                   </MDBListGroupItem>
 
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                     <div>
                       <CIcon icon={cilMoney} /><strong> 소지금 </strong> {userData.point}원
                     </div>
-                    <MDBBadge color="primary">수정</MDBBadge>
+                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
                   </MDBListGroupItem>
 
                   <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                     <div>
                       <CIcon icon={cilUser} /><strong> 자기소개 </strong> {userData.introduce}
                     </div>
-                    <MDBBadge color="primary">수정</MDBBadge>
+                    <CButton color="success" variant="outline" shape="rounded-pill" size="sm">수정</CButton>
+                  </MDBListGroupItem>
+
+                  <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
+                    <div>
+                      <CIcon icon={cilCarAlt} /><strong> 자동차 </strong> 등록된 자동차 {myCars.length}대
+                    </div>
+                    <CDropdown>
+                      <CDropdownToggle color="success" variant="outline" size="sm">보기</CDropdownToggle>
+                      <CDropdownMenu>
+                        {myCars.map((item, idx) =>
+                          <CDropdownItem key={idx}>
+                            {item.carModel+"("+item.carSize+") "+item.carNumber}
+                          </CDropdownItem>
+                        )}
+                      </CDropdownMenu>
+                    </CDropdown>
                   </MDBListGroupItem>
 
                 </MDBListGroup>
@@ -150,6 +157,8 @@ const Dashboard = () => {
           </CCard>
         </CCol>
       </CRow>
+
+
 
       <CRow>
         <CCol xs>
@@ -244,6 +253,10 @@ const Dashboard = () => {
           </CCard>
         </CCol>
       </CRow>
+
+
+
+
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
