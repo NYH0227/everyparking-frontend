@@ -1,23 +1,41 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
-export const CLIENT_PATH = "http://localhost:3000"
-export const SERVER_PATH = "http://localhost:7777"
+// export const CLIENT_PATH = "http://localhost:3000"
+// export const SERVER_PATH = "http://localhost:7777"
 
-// export const SERVER_PATH = "http://192.168.222.181:7777"
-// export const CLIENT_PATH = "http://192.168.222.38:3000"
+export const SERVER_PATH = "http://192.168.255.181:7777"
+export const CLIENT_PATH = "http://192.168.255.38:3000"
 
 export const DEFAULT_PLACE_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8NDw0NDQ8NDw0NDw0NDQ0NDQ8NDQ0NFREWFhURFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKBQUFDgUFDisZExkrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrK//AABEIALEBHAMBIgACEQEDEQH/xAAXAAEBAQEAAAAAAAAAAAAAAAABAAIH/8QAFhABAQEAAAAAAAAAAAAAAAAAAAER/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AOqIoAkgKSApEEkQWJEEigCJAIoAjiwGUUARQM1HAABQANCgEkASIIEAQUAIIIqEEkQRSBFIEUQGFEBiKAIoACgGBoAAVQZRAAFAA0zQSQAggCEgMMBgIgwCooQRSgFIgikCKhAJEAigZRQMo0AA0AAIAAgEKQASQJBAVEoCIIFIwEUQRRBEGAoUQSRAIoECsAIgAGmQCpAMoigBSACSAA0AgcAIpASCCIIEggSIYBMBApEFCkCKQBUoGUQABACilAyGqyAVIoAJUACAVSQApAYQYCIIEggSIQJEIEggSCCSIBJAARQCqVAUJAKDQABAAEUACAQKBIEDDBCCIMAkECRDAMMZagEwRAY0yQKSBJAEEgFSAIIAqEAQpAMogAkAVBoApICgYBIUBostAmmSDSBAwhASEDSCAhACEgQqFBBLQANACimgEEAQIBBIEUAJgQEpAYQdAoECQgaLJAllA0ggKCAgIECAQWigqEgFSAJBAElQQSBIoEgQKSAkIGiyQJZIEskCWToFBAUECQQEIAkhQWhAEkqASAJBARhAEEAUEBIQEggjAgaQQNIEEQgK0ICggOhACEAKCAJVAEkASQBFAgiAMSAVVICQgRSApIFSkChiQEJAoUgVSQIJAEkCCQIJAqEgSgQFBAYokD//2Q==";
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-right",
+  iconColor: "white",
+  customClass: {
+    popup: "colored-toast"
+  },
+  showConfirmButton: false,
+  timer: 1500,
+  timerProgressBar: true
+});
 
 
 class ParkingService {
 
   addHeader(method, path, data) {
+    if(localStorage.getItem("jwt")===null || undefined){
+      Swal.Toast.fire("세션이 만료되었습니다.","","info")
+      // eslint-disable-next-line no-restricted-globals
+      location.href = CLIENT_PATH+"/signin"
+    }
 
     return axios({
       method: method,
       url: SERVER_PATH + path,
       headers: {
-        "Authorization": localStorage.getItem("jwt").toString(),
+        "Authorization": localStorage.getItem("jwt").toString() ,
         "Content-Type": "application/json"
       },
       data: data
@@ -111,10 +129,6 @@ class ParkingService {
     /** 장소 취소 */
     cancelPlace(placeId){
       return this.addHeader("put","/api/rent/"+placeId)
-    }
-    /** Borrow 취소 */
-    cancelBorrow(borrowId){
-      return this.addHeader("put","/api/borrow/"+borrowId)
     }
 
     /** 회원가입 */

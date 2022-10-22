@@ -250,9 +250,9 @@ const Dashboard = () => {
                     </CTableHeaderCell>
                     <CTableHeaderCell>장소</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">차</CTableHeaderCell>
-                    <CTableHeaderCell>이용시간</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">가격</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
+                    <CTableHeaderCell>이용날짜</CTableHeaderCell>
+                    <CTableHeaderCell>가격</CTableHeaderCell>
+                    <CTableHeaderCell>ㄴㄴ</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>

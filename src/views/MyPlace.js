@@ -119,9 +119,6 @@ const MyPlace = () => {
 
   const handleAddPlace = () => {
 
-    console.log(x_pos)
-    console.log(y_pos)
-
     ParkingService.postAddPlace(mapAddr, x_pos, y_pos, message, placeName, imgUrl, carSize)
       .then( (res) => {
         console.log(res.data);

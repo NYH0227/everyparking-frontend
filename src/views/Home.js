@@ -23,7 +23,7 @@ import {
   cibTwitter,
   cilCloudDownload,
   cilUser,
-  cilUserFemale, cifUs, cibCcMastercard
+  cilUserFemale,
 } from "@coreui/icons";
 
 
@@ -74,78 +74,6 @@ const Home = () => {
 
   return (
     <>
-      {/*Test*/}
-      {/*  <CRow>*/}
-      {/*    <CCol xs>*/}
-      {/*      <CCard className="mb-4">*/}
-      {/*        <CCardHeader>*/}
-      {/*          <strong>대여한 주차장</strong>*/}
-      {/*        </CCardHeader>*/}
-      {/*        <CCardBody>*/}
-      {/*          <CTable align="middle" className="mb-0 border" hover responsive>*/}
-      {/*            <CTableHead color="light">*/}
-      {/*              <CTableRow>*/}
-      {/*                <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>*/}
-      {/*                <CTableHeaderCell>장소</CTableHeaderCell>*/}
-      {/*                <CTableHeaderCell>이용 시간</CTableHeaderCell>*/}
-      {/*                <CTableHeaderCell>비용</CTableHeaderCell>*/}
-      {/*                <CTableHeaderCell>등록자 정보</CTableHeaderCell>*/}
-      {/*                <CTableHeaderCell>메세지</CTableHeaderCell>*/}
-      {/*              </CTableRow>*/}
-      {/*            </CTableHead>*/}
-      {/*            <CTableBody>*/}
-      {/*              {tableExample.map((item, index) => (*/}
-      {/*                <CTableRow v-for="item in tableItems" key={index}>*/}
-      {/*                  <CTableDataCell className="text-center">*/}
-      {/*                    <img*/}
-      {/*                      src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf1bIIPOkf36NbCVsxbANB0d82fqVptx30wA&usqp=CAU"}*/}
-      {/*                      alt=""*/}
-      {/*                      style={{ width: "50px", height: "50px" }}*/}
-      {/*                      className="rounded-circle"*/}
-      {/*                    />*/}
-      {/*                  </CTableDataCell>*/}
-      {/*                  <CTableDataCell>*/}
-      {/*                    <div>무네미로 448번길</div>*/}
-      {/*                    <div className="small text-medium-emphasis">*/}
-      {/*                      학교 5기술관 앞 주차장*/}
-      {/*                    </div>*/}
-      {/*                  </CTableDataCell>*/}
-      {/*                  <CTableDataCell>*/}
-      {/*                    <div className="clearfix">*/}
-      {/*                      <div className="float-start">*/}
-      {/*                        <strong>{item.usage.value}%</strong>*/}
-      {/*                      </div>*/}
-      {/*                      <div className="float-end">*/}
-      {/*                        <small className="text-medium-emphasis">5일 5시 ~ 5일 6시</small>*/}
-      {/*                      </div>*/}
-      {/*                    </div>*/}
-      {/*                    <CProgress thin color={item.usage.color} value={item.usage.value} />*/}
-      {/*                  </CTableDataCell>*/}
-
-      {/*                  <CTableDataCell className="text-center">*/}
-      {/*                    1000원*/}
-      {/*                  </CTableDataCell>*/}
-      {/*                  <CTableDataCell>*/}
-      {/*                    <div>아무개</div>*/}
-      {/*                    <div className="small text-medium-emphasis">*/}
-      {/*                      010-2222-3333*/}
-      {/*                    </div>*/}
-      {/*                    <div>ss</div>*/}
-      {/*                  </CTableDataCell>*/}
-      {/*                  <CTableDataCell>*/}
-      {/*                    <div className="small text-medium-emphasis">*/}
-      {/*                      어린이 보호구역 입니다.*/}
-      {/*                    </div>*/}
-      {/*                  </CTableDataCell>*/}
-      {/*                </CTableRow>*/}
-      {/*              ))}*/}
-      {/*            </CTableBody>*/}
-      {/*          </CTable>*/}
-      {/*        </CCardBody>*/}
-      {/*      </CCard>*/}
-      {/*    </CCol>*/}
-      {/*  </CRow>*/}
-
       
         <CCard className="mb-4">
           <CCardBody>

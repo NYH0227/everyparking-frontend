@@ -76,8 +76,14 @@ const Rent = () => {
         setPlaceSize("");
       })
       .catch((err) => {
-        console.log("err", err.response.data.errorList);
-        Swal.fire(err.response.data.errorList[0].message, "", "error");
+        console.log("err", err.response);
+        console.log("err2", err.response.data);
+
+        if(err.response.data.errorList !== undefined || null){
+          Swal.fire(err.response.data.errorList[0].message, "", "error");
+        }else{
+          Swal.fire(err.response.data.message, "", "error");
+        }
       });
   };
 
