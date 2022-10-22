@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+  CAvatar,
   CButton,
   CButtonGroup,
   CCard,
@@ -9,7 +10,7 @@ import {
   CCardHeader,
   CCol,
   CProgress,
-  CRow, CTable, CTableBody, CTableHead, CTableHeaderCell, CTableRow,
+  CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 
 import { CChartLine } from '@coreui/react-chartjs'
@@ -22,18 +23,12 @@ import {
   cibTwitter,
   cilCloudDownload,
   cilUser,
-  cilUserFemale,
+  cilUserFemale, cifUs, cibCcMastercard
 } from "@coreui/icons";
-import DashMyInfo from "../components/DashMyInfo";
 
 
 const Home = () => {
 
-
-  const [myCars, setMyCars] = useState([
-    {carModel: "아우디", carNumber : "12가1234", carSize: "소형"},
-    {carModel: "아우님", carNumber : "12너1234", carSize: "중형"}
-  ]);
 
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
@@ -67,258 +62,308 @@ const Home = () => {
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
 
+  const tableExample = [
+    {
+      usage: {
+        value: 50,
+        period: 'Jun 11, 2021 - Jul 10, 2021',
+        color: 'success',
+      }
+    }
+  ]
+
   return (
     <>
-      <DashMyInfo myCars={myCars} email="n@naver.com" nickName="나영환"
-                  city="서울" tel="01022223333" point="20000" introduce="ㅎㅇㅎㅇ"/>
-
-
       {/*Test*/}
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>
-              <strong>등록한 장소</strong>
-            </CCardHeader>
-            <CCardBody>
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead color="light">
-                  <CTableRow>
-                    <CTableHeaderCell className="text-center">s</CTableHeaderCell>
-                    <CTableHeaderCell>장소</CTableHeaderCell>
-                    <CTableHeaderCell>차</CTableHeaderCell>
-                    <CTableHeaderCell>이용시간</CTableHeaderCell>
-                    <CTableHeaderCell>가격</CTableHeaderCell>
-                    <CTableHeaderCell>Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
+      {/*  <CRow>*/}
+      {/*    <CCol xs>*/}
+      {/*      <CCard className="mb-4">*/}
+      {/*        <CCardHeader>*/}
+      {/*          <strong>대여한 주차장</strong>*/}
+      {/*        </CCardHeader>*/}
+      {/*        <CCardBody>*/}
+      {/*          <CTable align="middle" className="mb-0 border" hover responsive>*/}
+      {/*            <CTableHead color="light">*/}
+      {/*              <CTableRow>*/}
+      {/*                <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>*/}
+      {/*                <CTableHeaderCell>장소</CTableHeaderCell>*/}
+      {/*                <CTableHeaderCell>이용 시간</CTableHeaderCell>*/}
+      {/*                <CTableHeaderCell>비용</CTableHeaderCell>*/}
+      {/*                <CTableHeaderCell>등록자 정보</CTableHeaderCell>*/}
+      {/*                <CTableHeaderCell>메세지</CTableHeaderCell>*/}
+      {/*              </CTableRow>*/}
+      {/*            </CTableHead>*/}
+      {/*            <CTableBody>*/}
+      {/*              {tableExample.map((item, index) => (*/}
+      {/*                <CTableRow v-for="item in tableItems" key={index}>*/}
+      {/*                  <CTableDataCell className="text-center">*/}
+      {/*                    <img*/}
+      {/*                      src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf1bIIPOkf36NbCVsxbANB0d82fqVptx30wA&usqp=CAU"}*/}
+      {/*                      alt=""*/}
+      {/*                      style={{ width: "50px", height: "50px" }}*/}
+      {/*                      className="rounded-circle"*/}
+      {/*                    />*/}
+      {/*                  </CTableDataCell>*/}
+      {/*                  <CTableDataCell>*/}
+      {/*                    <div>무네미로 448번길</div>*/}
+      {/*                    <div className="small text-medium-emphasis">*/}
+      {/*                      학교 5기술관 앞 주차장*/}
+      {/*                    </div>*/}
+      {/*                  </CTableDataCell>*/}
+      {/*                  <CTableDataCell>*/}
+      {/*                    <div className="clearfix">*/}
+      {/*                      <div className="float-start">*/}
+      {/*                        <strong>{item.usage.value}%</strong>*/}
+      {/*                      </div>*/}
+      {/*                      <div className="float-end">*/}
+      {/*                        <small className="text-medium-emphasis">5일 5시 ~ 5일 6시</small>*/}
+      {/*                      </div>*/}
+      {/*                    </div>*/}
+      {/*                    <CProgress thin color={item.usage.color} value={item.usage.value} />*/}
+      {/*                  </CTableDataCell>*/}
 
-                </CTableBody>
-              </CTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+      {/*                  <CTableDataCell className="text-center">*/}
+      {/*                    1000원*/}
+      {/*                  </CTableDataCell>*/}
+      {/*                  <CTableDataCell>*/}
+      {/*                    <div>아무개</div>*/}
+      {/*                    <div className="small text-medium-emphasis">*/}
+      {/*                      010-2222-3333*/}
+      {/*                    </div>*/}
+      {/*                    <div>ss</div>*/}
+      {/*                  </CTableDataCell>*/}
+      {/*                  <CTableDataCell>*/}
+      {/*                    <div className="small text-medium-emphasis">*/}
+      {/*                      어린이 보호구역 입니다.*/}
+      {/*                    </div>*/}
+      {/*                  </CTableDataCell>*/}
+      {/*                </CTableRow>*/}
+      {/*              ))}*/}
+      {/*            </CTableBody>*/}
+      {/*          </CTable>*/}
+      {/*        </CCardBody>*/}
+      {/*      </CCard>*/}
+      {/*    </CCol>*/}
+      {/*  </CRow>*/}
 
-
-      <CCard className="mb-4">
-        <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-medium-emphasis">January - July 2021</div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {["Day", "Month", "Year"].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === "Month"}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-          <CChartLine
-            style={{ height: "300px", marginTop: "40px" }}
-            data={{
-              labels: ["January", "February", "March", "April", "May", "June", "July"],
-              datasets: [
-                {
-                  label: "My First dataset",
-                  backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
-                  borderColor: getStyle("--cui-info"),
-                  pointHoverBackgroundColor: getStyle("--cui-info"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200)
-                  ],
-                  fill: true
-                },
-                {
-                  label: "My Second dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-success"),
-                  pointHoverBackgroundColor: getStyle("--cui-success"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200)
-                  ]
-                },
-                {
-                  label: "My Third dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-danger"),
-                  pointHoverBackgroundColor: getStyle("--cui-danger"),
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65]
-                }
-              ]
-            }}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  display: false
-                }
-              },
-              scales: {
-                x: {
-                  grid: {
-                    drawOnChartArea: false
-                  }
-                },
-                y: {
-                  ticks: {
-                    beginAtZero: true,
-                    maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
-                    max: 250
-                  }
-                }
-              },
-              elements: {
-                line: {
-                  tension: 0.4
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3
-                }
-              }
-            }}
-          />
-        </CCardBody>
-        <CCardFooter>
-          <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
-            {progressExample.map((item, index) => (
-              <CCol className="mb-sm-2 mb-0" key={index}>
-                <div className="text-medium-emphasis">{item.title}</div>
-                <strong>
-                  {item.value} ({item.percent}%)
-                </strong>
-                <CProgress thin className="mt-2" color={item.color} value={item.percent} />
+      
+        <CCard className="mb-4">
+          <CCardBody>
+            <CRow>
+              <CCol sm={5}>
+                <h4 id="traffic" className="card-title mb-0">
+                  Traffic
+                </h4>
+                <div className="small text-medium-emphasis">January - July 2021</div>
               </CCol>
-            ))}
-          </CRow>
-        </CCardFooter>
-      </CCard>
-
-
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>Traffic {" & "} Sales</CCardHeader>
-            <CCardBody>
-              <CRow>
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-info py-1 px-3">
-                        <div className="text-medium-emphasis small">New Clients</div>
-                        <div className="fs-5 fw-semibold">9,123</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Recurring Clients</div>
-                        <div className="fs-5 fw-semibold">22,643</div>
-                      </div>
-                    </CCol>
-                  </CRow>
-
-                  <hr className="mt-0" />
-                  {progressGroupExample1.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-prepend">
-                        <span className="text-medium-emphasis small">{item.title}</span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="info" value={item.value1} />
-                        <CProgress thin color="danger" value={item.value2} />
-                      </div>
-                    </div>
+              <CCol sm={7} className="d-none d-md-block">
+                <CButton color="primary" className="float-end">
+                  <CIcon icon={cilCloudDownload} />
+                </CButton>
+                <CButtonGroup className="float-end me-3">
+                  {["Day", "Month", "Year"].map((value) => (
+                    <CButton
+                      color="outline-secondary"
+                      key={value}
+                      className="mx-0"
+                      active={value === "Month"}
+                    >
+                      {value}
+                    </CButton>
                   ))}
+                </CButtonGroup>
+              </CCol>
+            </CRow>
+            <CChartLine
+              style={{ height: "300px", marginTop: "40px" }}
+              data={{
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                  {
+                    label: "My First dataset",
+                    backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
+                    borderColor: getStyle("--cui-info"),
+                    pointHoverBackgroundColor: getStyle("--cui-info"),
+                    borderWidth: 2,
+                    data: [
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200)
+                    ],
+                    fill: true
+                  },
+                  {
+                    label: "My Second dataset",
+                    backgroundColor: "transparent",
+                    borderColor: getStyle("--cui-success"),
+                    pointHoverBackgroundColor: getStyle("--cui-success"),
+                    borderWidth: 2,
+                    data: [
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200),
+                      random(50, 200)
+                    ]
+                  },
+                  {
+                    label: "My Third dataset",
+                    backgroundColor: "transparent",
+                    borderColor: getStyle("--cui-danger"),
+                    pointHoverBackgroundColor: getStyle("--cui-danger"),
+                    borderWidth: 1,
+                    borderDash: [8, 5],
+                    data: [65, 65, 65, 65, 65, 65, 65]
+                  }
+                ]
+              }}
+              options={{
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false
+                  }
+                },
+                scales: {
+                  x: {
+                    grid: {
+                      drawOnChartArea: false
+                    }
+                  },
+                  y: {
+                    ticks: {
+                      beginAtZero: true,
+                      maxTicksLimit: 5,
+                      stepSize: Math.ceil(250 / 5),
+                      max: 250
+                    }
+                  }
+                },
+                elements: {
+                  line: {
+                    tension: 0.4
+                  },
+                  point: {
+                    radius: 0,
+                    hitRadius: 10,
+                    hoverRadius: 4,
+                    hoverBorderWidth: 3
+                  }
+                }
+              }}
+            />
+          </CCardBody>
+          <CCardFooter>
+            <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
+              {progressExample.map((item, index) => (
+                <CCol className="mb-sm-2 mb-0" key={index}>
+                  <div className="text-medium-emphasis">{item.title}</div>
+                  <strong>
+                    {item.value} ({item.percent}%)
+                  </strong>
+                  <CProgress thin className="mt-2" color={item.color} value={item.percent} />
                 </CCol>
+              ))}
+            </CRow>
+          </CCardFooter>
+        </CCard>
 
-                <CCol xs={12} md={6} xl={6}>
-                  <CRow>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Pageviews</div>
-                        <div className="fs-5 fw-semibold">78,623</div>
-                      </div>
-                    </CCol>
-                    <CCol sm={6}>
-                      <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
-                        <div className="text-medium-emphasis small">Organic</div>
-                        <div className="fs-5 fw-semibold">49,123</div>
-                      </div>
-                    </CCol>
-                  </CRow>
 
-                  <hr className="mt-0" />
-                  {progressGroupExample2.map((item, index) => (
-                    <div className="progress-group mb-4" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">{item.value}%</span>
-                      </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="warning" value={item.value} />
-                      </div>
-                    </div>
-                  ))}
+        <CRow>
+          <CCol xs>
+            <CCard className="mb-4">
+              <CCardHeader>Traffic {" & "} Sales</CCardHeader>
+              <CCardBody>
+                <CRow>
+                  <CCol xs={12} md={6} xl={6}>
+                    <CRow>
+                      <CCol sm={6}>
+                        <div className="border-start border-start-4 border-start-info py-1 px-3">
+                          <div className="text-medium-emphasis small">New Clients</div>
+                          <div className="fs-5 fw-semibold">9,123</div>
+                        </div>
+                      </CCol>
+                      <CCol sm={6}>
+                        <div className="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
+                          <div className="text-medium-emphasis small">Recurring Clients</div>
+                          <div className="fs-5 fw-semibold">22,643</div>
+                        </div>
+                      </CCol>
+                    </CRow>
 
-                  <div className="mb-5"></div>
-                  {progressGroupExample3.map((item, index) => (
-                    <div className="progress-group" key={index}>
-                      <div className="progress-group-header">
-                        <CIcon className="me-2" icon={item.icon} size="lg" />
-                        <span>{item.title}</span>
-                        <span className="ms-auto fw-semibold">
+                    <hr className="mt-0" />
+                    {progressGroupExample1.map((item, index) => (
+                      <div className="progress-group mb-4" key={index}>
+                        <div className="progress-group-prepend">
+                          <span className="text-medium-emphasis small">{item.title}</span>
+                        </div>
+                        <div className="progress-group-bars">
+                          <CProgress thin color="info" value={item.value1} />
+                          <CProgress thin color="danger" value={item.value2} />
+                        </div>
+                      </div>
+                    ))}
+                  </CCol>
+
+                  <CCol xs={12} md={6} xl={6}>
+                    <CRow>
+                      <CCol sm={6}>
+                        <div className="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
+                          <div className="text-medium-emphasis small">Pageviews</div>
+                          <div className="fs-5 fw-semibold">78,623</div>
+                        </div>
+                      </CCol>
+                      <CCol sm={6}>
+                        <div className="border-start border-start-4 border-start-success py-1 px-3 mb-3">
+                          <div className="text-medium-emphasis small">Organic</div>
+                          <div className="fs-5 fw-semibold">49,123</div>
+                        </div>
+                      </CCol>
+                    </CRow>
+
+                    <hr className="mt-0" />
+                    {progressGroupExample2.map((item, index) => (
+                      <div className="progress-group mb-4" key={index}>
+                        <div className="progress-group-header">
+                          <CIcon className="me-2" icon={item.icon} size="lg" />
+                          <span>{item.title}</span>
+                          <span className="ms-auto fw-semibold">{item.value}%</span>
+                        </div>
+                        <div className="progress-group-bars">
+                          <CProgress thin color="warning" value={item.value} />
+                        </div>
+                      </div>
+                    ))}
+
+                    <div className="mb-5"></div>
+                    {progressGroupExample3.map((item, index) => (
+                      <div className="progress-group" key={index}>
+                        <div className="progress-group-header">
+                          <CIcon className="me-2" icon={item.icon} size="lg" />
+                          <span>{item.title}</span>
+                          <span className="ms-auto fw-semibold">
                           {item.value}{" "}
-                          <span className="text-medium-emphasis small">({item.percent}%)</span>
+                            <span className="text-medium-emphasis small">({item.percent}%)</span>
                         </span>
+                        </div>
+                        <div className="progress-group-bars">
+                          <CProgress thin color="success" value={item.percent} />
+                        </div>
                       </div>
-                      <div className="progress-group-bars">
-                        <CProgress thin color="success" value={item.percent} />
-                      </div>
-                    </div>
-                  ))}
-                </CCol>
-              </CRow>
-            </CCardBody>
+                    ))}
+                  </CCol>
+                </CRow>
+              </CCardBody>
 
-          </CCard>
-        </CCol>
-      </CRow>
+            </CCard>
+          </CCol>
+        </CRow>
     </>
   );
 }
