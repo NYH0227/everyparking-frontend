@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
 import {
-  CAvatar,
   CButton,
   CButtonGroup,
   CCard,
@@ -10,7 +9,7 @@ import {
   CCardHeader,
   CCol,
   CProgress,
-  CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
+  CRow,
 } from "@coreui/react";
 
 import { CChartLine } from '@coreui/react-chartjs'

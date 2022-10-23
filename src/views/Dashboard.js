@@ -6,16 +6,6 @@ import {
   CProgress, CRow, CTable, CTableBody, CTableDataCell,
   CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
-import CIcon from '@coreui/icons-react'
-import {
-  cibCcMastercard, cifUs, cilPeople,
-} from "@coreui/icons";
-import {
-  MDBBadge,
-  MDBTable,
-  MDBTableBody,
-  MDBTableHead
-} from "mdb-react-ui-kit";
 import ParkingService from "../service/ParkingService";
 import DashMyInfo from "../components/DashMyInfo";
 
@@ -245,9 +235,7 @@ const Dashboard = () => {
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell className="text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">s</CTableHeaderCell>
                     <CTableHeaderCell>장소</CTableHeaderCell>
                     <CTableHeaderCell className="text-center">차</CTableHeaderCell>
                     <CTableHeaderCell>이용날짜</CTableHeaderCell>
