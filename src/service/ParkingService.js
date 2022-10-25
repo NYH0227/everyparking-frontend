@@ -1,11 +1,11 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-// export const CLIENT_PATH = "http://localhost:3000"
-// export const SERVER_PATH = "http://localhost:7777"
+export const CLIENT_PATH = "http://localhost:3000"
+export const SERVER_PATH = "http://localhost:7777"
 
-export const SERVER_PATH = "http://192.168.255.181:7777";
-export const CLIENT_PATH = "http://192.168.255.38:3000";
+// export const SERVER_PATH = "http://192.168.255.181:7777";
+// export const CLIENT_PATH = "http://192.168.255.38:3000";
 
 export const httpMethod = {
   GET: "GET",
@@ -73,7 +73,7 @@ class ParkingService {
 
   /** DB의 랜트 가능한 장소 조회 */
   getPlaces() {
-    return axios.get(SERVER_PATH + "/api/place");
+    return axios.gㅃㅃㅂet(SERVER_PATH + "/api/place");
   }
 
 

@@ -8,31 +8,36 @@ import {
 } from "@coreui/react";
 import ParkingService from "../service/ParkingService";
 import DashMyInfo from "../components/DashMyInfo";
+import { MDBBadge } from "mdb-react-ui-kit";
 
 
 const Dashboard = () => {
 
-  const [myPlaces, setMyPlaces] = useState([]);
   const [myCars, setMyCars] = useState([]);
+  const [myPlaces, setMyPlaces] = useState([])
   const [userData,setUserData] = useState([]);
-  const [borrowData,setBorrowData] = useState([]);
 
-  const tableExample = [
-    { usage: "test" }]
+  const [myUsing,setMyUsing] = useState([]);
+  const [userUsing,setUserUsing] = useState([])
+
 
   useEffect(() => {
     ParkingService.userData()
       .then((res) => {
-        console.log("userData",res.data.data);
+        console.log("Data",res.data.data);
         setMyCars(res.data.data.cars === undefined || null ? [] : res.data.data.cars);
         setMyPlaces(res.data.data.places === undefined || null ? [] : res.data.data.places);
         setUserData(res.data.data  === undefined || null ? [] : res.data.data);
-        setBorrowData(res.data.data.myBorrows === undefined || null ? [] : res.data.data.myBorrows);
+        setMyUsing(res.data.data.myUsing === undefined || null ? [] : res.data.data.myUsing);
+        setUserUsing(res.data.data.userUsing === undefined || null ? [] : res.data.data.userUsing);
 
       })
       .catch((err) => console.log(err))
   }, []);
 
+  const timeformat = (time) => {
+    return time[2] + "일 " +time[3]+"시"
+  }
 
   return (
     <>
@@ -44,7 +49,7 @@ const Dashboard = () => {
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>대여한 주차장</strong>
+              <strong>내가 빌린 주차장</strong>
             </CCardHeader>
             <CCardBody>
               <CTable align="middle" className="mb-0 border" hover responsive>
@@ -59,47 +64,46 @@ const Dashboard = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
+                  {myUsing.map((item, idx) => (
+                    <CTableRow v-for="item in tableItems" key={idx}>
                       <CTableDataCell className="text-center">
                         <img
-                          src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf1bIIPOkf36NbCVsxbANB0d82fqVptx30wA&usqp=CAU"}
+                          src={item.placeImg}
                           alt=""
                           style={{ width: "50px", height: "50px" }}
                           className="rounded-circle"
                         />
                       </CTableDataCell>
                       <CTableDataCell>
-                        <div>무네미로 448번길</div>
+                        <div>{item.placeAddr.split(":")[0]}</div>
                         <div className="small text-medium-emphasis">
-                          학교 5기술관 앞 주차장
+                          {item.placeAddr.split(":")[1]}
                         </div>
                       </CTableDataCell>
                       <CTableDataCell>
                         <div className="clearfix">
                           <div className="float-start">
-                            <strong>{item.usage.value}%</strong>
+                            <strong>50%</strong>
                           </div>
                           <div className="float-end">
-                            <small className="text-medium-emphasis">5일 5시 ~ 5일 6시</small>
+                            <small className="text-medium-emphasis">{timeformat(item.startAt)} ~ {timeformat(item.endAt)}</small>
                           </div>
                         </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
+                        <CProgress thin color="success" value="50" />
                       </CTableDataCell>
 
                       <CTableDataCell className="text-center">
-                        1000원
+                        {item.cost}원
                       </CTableDataCell>
                       <CTableDataCell>
-                        <div>아무개</div>
+                        <div>{item.renterName}</div>
                         <div className="small text-medium-emphasis">
-                          010-2222-3333
+                          {item.renterTel}
                         </div>
-                        <div>ss</div>
                       </CTableDataCell>
                       <CTableDataCell>
                         <div className="small text-medium-emphasis">
-                          어린이 보호구역 입니다.
+                          {item.message}
                         </div>
                       </CTableDataCell>
                     </CTableRow>
@@ -117,13 +121,14 @@ const Dashboard = () => {
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>
-              <strong>내 장소</strong>
+              <strong>내가 빌려준 주차장</strong>
             </CCardHeader>
             <CCardBody>
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead color="light">
                   <CTableRow>
                     <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>
+                    <CTableHeaderCell>별칭</CTableHeaderCell>
                     <CTableHeaderCell>장소</CTableHeaderCell>
                     <CTableHeaderCell>등록 시간</CTableHeaderCell>
                     <CTableHeaderCell>수익</CTableHeaderCell>
@@ -132,20 +137,23 @@ const Dashboard = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
+                  {myPlaces.map((item, idx) => (
+                    <CTableRow v-for="item in tableItems" key={idx}>
                       <CTableDataCell className="text-center">
                         <img
-                          src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf1bIIPOkf36NbCVsxbANB0d82fqVptx30wA&usqp=CAU"}
+                          src={item.imgUrl}
                           alt=""
                           style={{ width: "50px", height: "50px" }}
                           className="rounded-circle"
                         />
                       </CTableDataCell>
                       <CTableDataCell>
-                        <div>무네미로 448번길</div>
+                        {item.name}
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <div>{item.addr.split(":")[0]}</div>
                         <div className="small text-medium-emphasis">
-                          학교 5기술관 앞 주차장
+                          {item.addr.split(":")[1]}
                         </div>
                       </CTableDataCell>
                       <CTableDataCell>
@@ -154,7 +162,7 @@ const Dashboard = () => {
                             <strong>50%</strong>
                           </div>
                           <div className="float-end">
-                            <small className="text-medium-emphasis">5일 5시 ~ 5일 6시</small>
+                            <small className="text-medium-emphasis">{item.startTime} ~ 5일 6시</small>
                           </div>
                         </div>
                         <CProgress thin color="success" value="50" />
@@ -173,48 +181,12 @@ const Dashboard = () => {
                         </div>
                       </CTableDataCell>
                       <CTableDataCell>
-                        사용중
+                        {item.placeStatus === "waiting" ? <MDBBadge color="success" pill>등록가능</MDBBadge> : ""}
+                        {item.placeStatus === "pending" ? <MDBBadge color="warning" pill>등록중</MDBBadge> : ""}
+                        {item.placeStatus === "inUse" ? <MDBBadge color="danger" pill>이용중</MDBBadge> : ""}
                       </CTableDataCell>
                     </CTableRow>
                   ))}
-
-                  <CTableRow v-for="item in tableItems" key="2">
-                    <CTableDataCell className="text-center">
-                      <img
-                        src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf1bIIPOkf36NbCVsxbANB0d82fqVptx30wA&usqp=CAU"}
-                        alt=""
-                        style={{ width: "50px", height: "50px" }}
-                        className="rounded-circle"
-                      />
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <div>무네미로 448번길</div>
-                      <div className="small text-medium-emphasis">
-                        학교 5기술관 앞 주차장
-                      </div>
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      <div className="clearfix">
-                        <div className="float-start">
-                          <strong>0%</strong>
-                        </div>
-                        <div className="float-end">
-                          <small className="text-medium-emphasis">5일 5시 ~ 5일 6시</small>
-                        </div>
-                      </div>
-                      <CProgress thin color="success" value="0" />
-                    </CTableDataCell>
-
-                    <CTableDataCell className="text-center">
-                      1000원
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      대여자가 없습니다.
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      등록중
-                    </CTableDataCell>
-                  </CTableRow>
 
                 </CTableBody>
               </CTable>
@@ -235,45 +207,37 @@ const Dashboard = () => {
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell className="text-center">s</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>
                     <CTableHeaderCell>장소</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">차</CTableHeaderCell>
-                    <CTableHeaderCell>이용날짜</CTableHeaderCell>
-                    <CTableHeaderCell>가격</CTableHeaderCell>
-                    <CTableHeaderCell>ㄴㄴ</CTableHeaderCell>
+                    <CTableHeaderCell>등록 시간</CTableHeaderCell>
+                    <CTableHeaderCell>비용</CTableHeaderCell>
+                    <CTableHeaderCell>상대방</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                <CTableBody>
+                <CTableBody style={{ overflow: "scroll" }}>
                     <CTableRow v-for="item in tableItems" key={1}>
-                      <CTableDataCell className="text-center">
-                        6
-                      </CTableDataCell>
                       <CTableDataCell>
                         5
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
+                      <CTableDataCell>
                         4
                       </CTableDataCell>
                       <CTableDataCell>
                         3
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
+                      <CTableDataCell>
                         2
                       </CTableDataCell>
                       <CTableDataCell>
                         1
                       </CTableDataCell>
                     </CTableRow>
-
                 </CTableBody>
               </CTable>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-
-
-
     </>
   );
 }

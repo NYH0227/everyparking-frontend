@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ParkingService from "../service/ParkingService";
+import ParkingService, { swalIcon } from "../service/ParkingService";
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody, MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
@@ -68,7 +68,7 @@ const Rent = () => {
       .then((res) => {
         console.log(res);
         getMyPlacessFuc();
-        Swal.fire(res.data.message, "", "success");
+        Swal.fire(res.data.message, "", swalIcon.SUCCESS);
 
         setMessage("");
         setCost(0);
@@ -80,9 +80,9 @@ const Rent = () => {
         console.log("err2", err.response.data);
 
         if(err.response.data.errorList !== undefined || null){
-          Swal.fire(err.response.data.errorList[0].message, "", "error");
+          Swal.fire(err.response.data.errorList[0].message, "", swalIcon.ERROR);
         }else{
-          Swal.fire(err.response.data.message, "", "error");
+          Swal.fire(err.response.data.message, "", swalIcon.ERROR);
         }
       });
   };
@@ -92,7 +92,7 @@ const Rent = () => {
       .then((res) => {
         console.log(res);
         setRendering(!rendering);
-        Swal.fire(res.data.message, "", "success");
+        Swal.fire(res.data.message, "", swalIcon.SUCCESS);
       })
       .catch((e) => {console.log(e)})
   }

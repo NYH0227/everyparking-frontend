@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
-import ParkingService from "../service/ParkingService";
+import ParkingService, { swalIcon } from "../service/ParkingService";
 import React from 'react'
 import {
   CButton,
@@ -44,7 +44,7 @@ function SignUp() {
             }).catch((err) => {
                 console.log(err)
                 Swal.fire({
-                    icon: 'error',
+                    icon: swalIcon.ERROR,
                     title: '회원가입 실패',
                     text: '회원가입 도중 오류가 발생하였습니다',
                     footer: err.message

@@ -12,7 +12,7 @@ import {
   CFormSelect,
   CRow,
 } from '@coreui/react'
-import ParkingService from "../service/ParkingService";
+import ParkingService, { swalIcon } from "../service/ParkingService";
 import Swal from "sweetalert2";
 
 const MyCar = () => {
@@ -31,13 +31,13 @@ const MyCar = () => {
   const handleAddCar = () => {
     ParkingService.postAddCar(carNum, carModel, carSize)
       .then((res) => {
-        Swal.fire(res.data.message, "", "success");
+        Swal.fire(res.data.message, "", swalIcon.SUCCESS);
         setCarNum("");
         setCarModel("");
       })
       .catch((err) => {
         console.log(err.response);
-        Swal.fire(err.response.data.errorList[0].message, "", "error");
+        Swal.fire(err.response.data.errorList[0].message, "", swalIcon.ERROR);
       });
   }
 

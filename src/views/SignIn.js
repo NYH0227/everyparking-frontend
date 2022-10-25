@@ -1,4 +1,4 @@
-import ParkingService, { CLIENT_PATH } from "../service/ParkingService";
+import ParkingService, { CLIENT_PATH, swalIcon } from "../service/ParkingService";
 import {useState} from "react";
 import React from 'react'
 import {
@@ -31,12 +31,12 @@ function SignIn() {
                 setEmail("")
                 setPassword("")
 
-                Swal.fire(res.data.message,"","success")
+                Swal.fire(res.data.message,"",swalIcon.SUCCESS)
                 window.location.href = CLIENT_PATH
                 history("/Dashboard")
                 }
             )
-            .catch((err) => Swal.fire(err.response.data.message,"","error"))
+            .catch((err) => Swal.fire(err.response.data.message,"",swalIcon.ERROR))
     }
 
     return (
