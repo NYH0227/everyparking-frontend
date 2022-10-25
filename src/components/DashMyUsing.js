@@ -3,6 +3,7 @@ import {
   CCard, CCardBody, CCardHeader, CCol,
   CProgress, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
+import moment from "moment";
 
 
 
@@ -16,20 +17,40 @@ const DashMyUsing = (x) => {
   const phoneFormat = (value) => {
     if(value) {
       value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
-      return "+82 " + value.slice(1,value.length);
     }
     return value
   }
   const leftTime = (startAt,endAt) => {
-    let start = startAt === 0 ? new Date() : new Date(startAt[0], startAt[1], startAt[2], startAt[3], startAt[4], startAt[5])
-    let end = new Date(endAt[0],endAt[1],endAt[2],endAt[3],endAt[4],endAt[5]);
+    let now = moment()
+    let start = moment(startAt).subtract(1, "months")
+    let end = moment(endAt).subtract(1, "months")
 
-    console.log("시작시간",start)
-    console.log("종료시간",end)
-    console.log("현재시간",new Date())
+    if(now.isBefore(start)){
+      return (
+        <CTableDataCell>
+          <div className="clearfix">
+            <strong>{start.diff(now, "hour")}시간 후 시작</strong>
+          </div>
+        </CTableDataCell>
+      );
+    }
 
-
-    return (end.getTime() - start.getTime()) / (1000*60*60);
+    return (
+      <CTableDataCell>
+        <div className="clearfix">
+          <div className="float-start">
+            <strong>50%</strong>
+          </div>
+          <div className="float-start">
+            <strong className="text-medium-emphasis">
+              {start.format("DD일 HH시")} ~ {end.format("DD일 HH시")}
+              {/*{leftTime(end.diff(now, "hour"))}시간 남음*/}
+            </strong>
+          </div>
+        </div>
+        <CProgress thin color="success" value="50" />
+      </CTableDataCell>
+    )
   }
 
   return (
@@ -68,23 +89,11 @@ const DashMyUsing = (x) => {
                         {item.placeAddr.split(":")[1]}
                       </div>
                     </CTableDataCell>
-                    <CTableDataCell>
 
-                      <div className="clearfix">
-                        <div className="float-start">
-                          <strong>50%</strong>
-                        </div>
-                        <div className="float-end">
-                          <strong className="text-medium-emphasis">{leftTime(item.startAt,item.endAt)}시간</strong>
-                          {/*<strong className="text-medium-emphasis">{parseInt(leftTime(0,item.endAt))}시간</strong>*/}
-                        </div>
-                      </div>
-                      <CProgress thin color="success" value="50" />
-                    </CTableDataCell>
+                    {leftTime(item.startAt,item.endAt)}
 
                     <CTableDataCell className="text-center">
-                      {/*{leftTime(item.startAt,item.endAt) * item.cost}원*/}
-                      {item.cost}원
+                      {Number(moment(item.endAt).diff(moment(item.startAt), "hours")) * item.cost}원
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.renterName}</div>
