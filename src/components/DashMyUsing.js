@@ -20,6 +20,17 @@ const DashMyUsing = (x) => {
     }
     return value
   }
+  const leftTime = (startAt,endAt) => {
+    let start = startAt === 0 ? new Date() : new Date(startAt[0], startAt[1], startAt[2], startAt[3], startAt[4], startAt[5])
+    let end = new Date(endAt[0],endAt[1],endAt[2],endAt[3],endAt[4],endAt[5]);
+
+    console.log("시작시간",start)
+    console.log("종료시간",end)
+    console.log("현재시간",new Date())
+
+
+    return (end.getTime() - start.getTime()) / (1000*60*60);
+  }
 
   return (
     <CRow>
@@ -34,7 +45,7 @@ const DashMyUsing = (x) => {
                 <CTableRow>
                   <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>
                   <CTableHeaderCell>장소</CTableHeaderCell>
-                  <CTableHeaderCell>이용 시간</CTableHeaderCell>
+                  <CTableHeaderCell>남은시간</CTableHeaderCell>
                   <CTableHeaderCell>비용</CTableHeaderCell>
                   <CTableHeaderCell>등록자 정보</CTableHeaderCell>
                   <CTableHeaderCell>메세지</CTableHeaderCell>
@@ -58,19 +69,21 @@ const DashMyUsing = (x) => {
                       </div>
                     </CTableDataCell>
                     <CTableDataCell>
+
                       <div className="clearfix">
                         <div className="float-start">
                           <strong>50%</strong>
                         </div>
                         <div className="float-end">
-                          <small
-                            className="text-medium-emphasis">{timeFormat(item.startAt)} ~ {timeFormat(item.endAt)}</small>
+                          <strong className="text-medium-emphasis">{leftTime(item.startAt,item.endAt)}시간</strong>
+                          {/*<strong className="text-medium-emphasis">{parseInt(leftTime(0,item.endAt))}시간</strong>*/}
                         </div>
                       </div>
                       <CProgress thin color="success" value="50" />
                     </CTableDataCell>
 
                     <CTableDataCell className="text-center">
+                      {/*{leftTime(item.startAt,item.endAt) * item.cost}원*/}
                       {item.cost}원
                     </CTableDataCell>
                     <CTableDataCell>

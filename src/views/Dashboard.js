@@ -5,7 +5,6 @@ import {
   CProgress, CRow, CTable, CTableBody, CTableDataCell,
   CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
-import { MDBBadge } from "mdb-react-ui-kit";
 
 import ParkingService from "../service/ParkingService";
 import DashMyInfo from "../components/DashMyInfo";
