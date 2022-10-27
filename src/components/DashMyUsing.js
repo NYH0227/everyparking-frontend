@@ -6,13 +6,7 @@ import {
 import moment from "moment";
 
 
-
-
 const DashMyUsing = (x) => {
-
-  const timeFormat = (time) => {
-    return time[2] + "일 " +time[3]+"시"
-  }
 
   const phoneFormat = (value) => {
     if(value) {

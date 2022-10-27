@@ -52,32 +52,25 @@ const Dashboard = () => {
               <strong>이용 내역</strong>
             </CCardHeader>
             <CCardBody>
-              <CTable align="middle" className="mb-0 border" hover responsive>
+              <CTable align="middle" className="mb-0" hover responsive>
                 <CTableHead color="light">
                   <CTableRow>
-                    <CTableHeaderCell className="text-center">이미지</CTableHeaderCell>
-                    <CTableHeaderCell>장소</CTableHeaderCell>
-                    <CTableHeaderCell>등록 시간</CTableHeaderCell>
-                    <CTableHeaderCell>비용</CTableHeaderCell>
-                    <CTableHeaderCell>상대방</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">날짜</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">로그</CTableHeaderCell>
+                    <CTableHeaderCell>금액</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody style={{ overflow: "scroll" }}>
                   <CTableRow v-for="item in tableItems" key={1}>
-                    <CTableDataCell>
-                      5
+                    <CTableDataCell className="text-center">
+                      2022년 10월 16일 16시
                     </CTableDataCell>
                     <CTableDataCell>
-                      4
+                      나의 ( 장제로 161 ) 주소의 주차장을 <br/>
+                      ( 테스트 ) 사용자가 ( 10월 16일 16시 ~ 17일 18시 )까지 이용하였습니다.
                     </CTableDataCell>
                     <CTableDataCell>
-                      3
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      2
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      1
+                      + 210000원
                     </CTableDataCell>
                   </CTableRow>
                 </CTableBody>
