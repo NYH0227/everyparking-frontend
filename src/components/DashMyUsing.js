@@ -6,13 +6,8 @@ import {
 import moment from "moment";
 
 
-
-
 const DashMyUsing = (x) => {
-  const RT = (time) => {
 
-    return moment(time).subtract(1, "months").subtract(12, "hours")
-  }
   const phoneFormat = (value) => {
     if(value) {
       value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
@@ -21,30 +16,23 @@ const DashMyUsing = (x) => {
   }
 
   const diffTime = (startAt,endAt) => {
-
-    const start = RT(startAt)
-    const end = RT(endAt)
-
-    // console.log("end",end.toISOString())
-    // console.log("end2",end)
-    // console.log("end3",endAt)
-    // console.log("result",Number(end.diff(start, "hours")))
-
-    return 10;
-
-    // return Number(end.diff(start, "hours"));
+    const start = moment(startAt)
+    const end = moment(endAt)
+    return Number(end.diff(start, "hours"));
   }
 
-  const leftTimeView = (startAt,endAt) => {
+  const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
     const now = moment()
-    const start = RT(startAt)
-    const end = RT(endAt)
+    const borrowStart = moment(borrowStartAt)
+    const borrowEnd = moment(borrowEndAt)
+    const rentStart = moment(rentStartAt)
+    const rentEnd = moment(rentEndAt)
 
-    if(now.isBefore(start)){
+    if(now.isBefore(borrowStart)){
       return (
         <CTableDataCell>
           <div className="clearfix">
-            <strong>{start.diff(now, "hour")}시간 후 시작</strong>
+            <strong>{borrowStart.diff(now, "months")}시간 후 시작</strong>
           </div>
         </CTableDataCell>
       );
@@ -55,8 +43,7 @@ const DashMyUsing = (x) => {
         <div className="clearfix">
           <div className="float-start">
             <strong className="text-medium-emphasis">
-              {start.format("DD일 HH시")} ~ {end.format("DD일 HH시")}
-              {/*{leftTime(end.diff(now, "hour"))}시간 남음*/}
+              {borrowStart.format("DD일 HH시")} ~ {borrowEnd.format("DD일 HH시")}
             </strong>
           </div>
           <div className="float-end">
@@ -108,7 +95,7 @@ const DashMyUsing = (x) => {
                     {leftTimeView(item.startAt,item.endAt)}
 
                     <CTableDataCell className="text-center">
-                      {diffTime(item.startAt,item.endAt)* item.cost}원
+                      {diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost}원
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.renterName}</div>
