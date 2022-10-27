@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CButton, CFormInput, CFormLabel } from "@coreui/react";
+import moment from "moment";
 
 
 const Rent = () => {
@@ -64,14 +65,14 @@ const Rent = () => {
   };
 
   const handleDataOnClick = () => {
-    ParkingService.postRentPlaceData(startTime.toISOString(), endTime.toISOString(), cost, message, placeId)
+    ParkingService.postRentPlaceData(moment(startTime).add(12, "hours"), moment(endTime).add(12, "hours"), cost, message, placeId)
       .then((res) => {
         console.log(res);
         getMyPlacessFuc();
         Swal.fire(res.data.message, "", swalIcon.SUCCESS);
 
         setMessage("");
-        setCost(0);
+        setCost(1000);
         setPlaceId(0);
         setPlaceSize("");
       })

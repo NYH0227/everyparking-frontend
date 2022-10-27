@@ -9,9 +9,8 @@ import moment from "moment";
 
 
 const DashMyUsing = (x) => {
-
-
   const RT = (time) => {
+
     return moment(time).subtract(1, "months").subtract(12, "hours")
   }
   const phoneFormat = (value) => {
@@ -26,11 +25,10 @@ const DashMyUsing = (x) => {
     const start = RT(startAt)
     const end = RT(endAt)
 
-    console.log("start",start.toISOString())
-    console.log("start2",start)
-    console.log("end",end.toISOString())
-    console.log("end2",end)
-    console.log("result",Number(end.diff(start, "hours")))
+    // console.log("end",end.toISOString())
+    // console.log("end2",end)
+    // console.log("end3",endAt)
+    // console.log("result",Number(end.diff(start, "hours")))
 
     return 10;
 
