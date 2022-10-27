@@ -9,10 +9,7 @@ import moment from "moment";
 const DashMyUsing = (x) => {
 
   const phoneFormat = (value) => {
-    if(value) {
-      value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
-    }
-    return value
+    return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
   }
 
   const diffTime = (startAt,endAt) => {
@@ -22,7 +19,7 @@ const DashMyUsing = (x) => {
   }
 
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
-    const now = moment()
+    const now = moment().add(1, "M")
     const borrowStart = moment(borrowStartAt)
     const borrowEnd = moment(borrowEndAt)
     const rentStart = moment(rentStartAt)
@@ -32,7 +29,11 @@ const DashMyUsing = (x) => {
       return (
         <CTableDataCell>
           <div className="clearfix">
-            <strong>{borrowStart.diff(now, "months")}시간 후 시작</strong>
+            {/*시간 단위로 나누기*/}
+            {/*{console.log("지금",now)}*/}
+            {/*{console.log("B시간",borrowStart)}*/}
+            {/*{console.log("R시간",rentStart)}*/}
+            <strong>{borrowStart.diff(now, "hour")}시간 후 시작</strong>
           </div>
         </CTableDataCell>
       );
@@ -47,7 +48,10 @@ const DashMyUsing = (x) => {
             </strong>
           </div>
           <div className="float-end">
-            <strong>50%</strong>
+            <strong>
+              {console.log(rentEnd.diff(now))}
+              {100-rentEnd.diff(now)/rentEnd.diff(rentStart)*100}%
+            </strong>
           </div>
         </div>
         <CProgress thin color="success" value="50" />
@@ -91,8 +95,7 @@ const DashMyUsing = (x) => {
                         {item.placeAddr.split(":")[1]}
                       </div>
                     </CTableDataCell>
-
-                    {leftTimeView(item.startAt,item.endAt)}
+                    {leftTimeView(item.borrowStartAt,item.borrowEndAt,item.rentStartAt,item.rentEndAt)}
 
                     <CTableDataCell className="text-center">
                       {diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost}원

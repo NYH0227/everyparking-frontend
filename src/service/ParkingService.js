@@ -174,7 +174,9 @@ class ParkingService {
   /** 회원 정보 수정 */
   editUserData(tel, intro, city) {
     return this.addHeader(httpMethod.PUT, "/api/users", {
-      // write code here !!
+      "tel" : tel,
+      "intro" : intro,
+      "city" : city
     });
   }
 

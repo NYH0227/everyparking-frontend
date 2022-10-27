@@ -56,7 +56,7 @@ const Dashboard = () => {
                 <CTableHead color="light">
                   <CTableRow>
                     <CTableHeaderCell className="text-center">날짜</CTableHeaderCell>
-                    <CTableHeaderCell className="text-center">로그</CTableHeaderCell>
+                    <CTableHeaderCell className="text-center">내역</CTableHeaderCell>
                     <CTableHeaderCell>금액</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>

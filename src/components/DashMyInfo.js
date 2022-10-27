@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   CButton, CCard, CCardBody, CCardHeader, CCol, CDropdown, CDropdownItem, CDropdownMenu,
   CDropdownToggle, CFormInput, CFormSelect, CModal, CModalBody, CModalFooter, CModalHeader,
@@ -6,24 +6,50 @@ import {
 } from "@coreui/react";
 import { MDBContainer, MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
 import CIcon from "@coreui/icons-react";
-import { cilCarAlt, cilEnvelopeClosed, cilLocationPin, cilMoney, cilScreenSmartphone, cilUser } from "@coreui/icons";
+import { cilCarAlt, cilLocationPin, cilMoney, cilScreenSmartphone, cilUser } from "@coreui/icons";
 import ParkingService from "../service/ParkingService";
 
 
 
 const DashMyInfo = (x) => {
 
-  const [inputEmail,setInputEmail] = useState("")
   const [inputPhone,setInputPhone] = useState("")
   const [inputIntroduce,setInputIntroduce] = useState("")
+
+  const [selectCity,setSelectCity] = useState("")
+  const [showTel,setShowTel] = useState("")
+  const [showIntro,setShowIntro] = useState("")
+
+
   const [updateTel, setUpdateTel] = useState(false)
-  const [updateEmail, setUpdateEmail] = useState(false)
   const [updateIntroduce, setUpdateIntroduce] = useState(false)
   const [updateCity, setUpdateCity] = useState(false)
 
   const [cities,setCities] = useState([])
   const [myPoint,setMyPoint] = useState(0)
 
+  useEffect(() => {
+    setShowTel(x.tel);
+    setSelectCity(x.city);
+    setShowIntro(x.introduce);
+    setInputIntroduce(x.introduce);
+    setInputPhone(x.tel)
+  }, [x]);
+
+  const handleUpdateOnClick = (tel,intro,city) => {
+    if(tel === undefined || "") tel = x.tel
+    if(intro === undefined || "") intro = x.introduce
+    if(city === undefined || "") city = x.city
+
+    ParkingService.editUserData(tel,intro,city)
+      .then(res => {
+        console.log(res);
+        setShowTel(tel);
+        setSelectCity(city);
+        setShowIntro(intro);
+      })
+      .catch((err) => console.log(err));
+  }
 
   const getPoint = () => {
     ParkingService.getPoint()
@@ -62,9 +88,8 @@ const DashMyInfo = (x) => {
                 </MDBListGroupItem>
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> {phoneNumber(x.tel)}
+                    <CIcon icon={cilScreenSmartphone} /><strong> 휴대전화</strong> {phoneNumber(showTel)}
                   </div>
-
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
                            onClick={() => setUpdateTel(!updateTel)}>수정</CButton>
                   <CModal alignment="center" visible={updateTel} onClose={() => setUpdateTel(false)}>
@@ -78,32 +103,7 @@ const DashMyInfo = (x) => {
                       <CButton color="secondary" onClick={() => setUpdateTel(false)}>Close</CButton>
                       <CButton color="primary" onClick={() => {
                         setUpdateTel(false);
-                        setInputPhone("");
-                      }}>Save</CButton>
-
-                    </CModalFooter>
-                  </CModal>
-
-                </MDBListGroupItem>
-                <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
-                  <div>
-                    <CIcon icon={cilEnvelopeClosed} /><strong> 이메일 </strong> {x.email}
-                  </div>
-                  <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
-                           onClick={() => setUpdateEmail(!updateEmail)}>수정</CButton>
-                  <CModal alignment="center" visible={updateEmail} onClose={() => setUpdateEmail(false)}>
-                    <CModalHeader onClose={() => setUpdateEmail(false)}>
-                      <CModalTitle>이메일 수정</CModalTitle>
-                    </CModalHeader>
-                    <CModalBody>
-                      <CFormInput type="email" value={inputEmail} onChange={(e) => setInputEmail(e.target.value)}></CFormInput>
-                    </CModalBody>
-                    <CModalFooter>
-                      <CButton color="secondary" onClick={() => setUpdateEmail(false)}>Close</CButton>
-                      <CButton color="primary" onClick={() => {
-
-                        setUpdateEmail(false);
-                        setInputEmail("");
+                        handleUpdateOnClick(inputPhone,inputIntroduce,selectCity);
                       }}>Save</CButton>
 
                     </CModalFooter>
@@ -112,15 +112,15 @@ const DashMyInfo = (x) => {
 
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilLocationPin} /><strong> 지역 </strong> {x.city}
+                    <CIcon icon={cilLocationPin} /><strong> 지역 </strong> {selectCity}
                   </div>
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
                            onClick={() => {
                              setUpdateCity(!updateCity);
-                             if(cities.length === 0) {
+                             if (cities.length === 0) {
                                ParkingService.getCities()
                                  .then((res) => setCities(res.data === undefined || null ? [] : res.data))
-                                 .catch((err) => console.log(err))
+                                 .catch((err) => console.log(err));
                              }
                            }}>수정</CButton>
                   <CModal alignment="center" visible={updateCity} onClose={() => setUpdateCity(false)}>
@@ -128,7 +128,12 @@ const DashMyInfo = (x) => {
                       <CModalTitle>지역 수정</CModalTitle>
                     </CModalHeader>
                     <CModalBody>
-                      <CFormSelect onChange={(e) => console.log(e.target.value)} required aria-label="select example">
+                      <CFormSelect onChange={(e) => {
+                        setSelectCity(e.target.value);
+                        setUpdateCity(false);
+                        handleUpdateOnClick(inputPhone,inputIntroduce,e.target.value);
+                      }} required aria-label="select example">
+
                         <option>지역을 선택해주세요</option>
                         {cities.map((x, index) =>
                           <option value={x} key={index}>{x}</option>
@@ -149,9 +154,10 @@ const DashMyInfo = (x) => {
                            onClick={() => getPoint()}>충전</CButton>
                 </MDBListGroupItem>
 
+
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilUser} /><strong> 자기소개 </strong> {x.introduce}
+                    <CIcon icon={cilUser} /><strong> 자기소개 </strong> {showIntro}
                   </div>
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
                            onClick={() => setUpdateIntroduce(!updateIntroduce)}>수정</CButton>
@@ -160,16 +166,15 @@ const DashMyInfo = (x) => {
                       <CModalTitle>자기소개 수정</CModalTitle>
                     </CModalHeader>
                     <CModalBody>
-                      <CFormInput type="text" value={inputIntroduce} onChange={(e) => setInputIntroduce(e.target.value)}></CFormInput>
+                      <CFormInput type="text" value={inputIntroduce}
+                                  onChange={(e) => setInputIntroduce(e.target.value)}></CFormInput>
                     </CModalBody>
                     <CModalFooter>
                       <CButton color="secondary" onClick={() => setUpdateIntroduce(false)}>Close</CButton>
                       <CButton color="primary" onClick={() => {
-
                         setUpdateIntroduce(false);
-                        setInputIntroduce("");
+                        handleUpdateOnClick(inputPhone,inputIntroduce,selectCity);
                       }}>Save</CButton>
-
                     </CModalFooter>
                   </CModal>
                 </MDBListGroupItem>
