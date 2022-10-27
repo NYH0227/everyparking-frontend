@@ -14,23 +14,23 @@ const Dashboard = () => {
 
   const [myPlaces, setMyPlaces] = useState([]);
   const [myCars, setMyCars] = useState([]);
-  const [userData,setUserData] = useState([]);
-  const [borrowData,setBorrowData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  const [borrowData, setBorrowData] = useState([]);
 
   const tableExample = [
-    { usage: "test" }]
+    { usage: "test" }];
 
   useEffect(() => {
     ParkingService.userData()
       .then((res) => {
-        console.log("userData",res.data.data);
+        console.log("userData", res.data.data);
         setMyCars(res.data.data.cars === undefined || null ? [] : res.data.data.cars);
         setMyPlaces(res.data.data.places === undefined || null ? [] : res.data.data.places);
-        setUserData(res.data.data  === undefined || null ? [] : res.data.data);
+        setUserData(res.data.data === undefined || null ? [] : res.data.data);
         setBorrowData(res.data.data.myBorrows === undefined || null ? [] : res.data.data.myBorrows);
 
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }, []);
 
 
@@ -110,7 +110,6 @@ const Dashboard = () => {
           </CCard>
         </CCol>
       </CRow>
-
 
 
       <CRow>
@@ -224,7 +223,6 @@ const Dashboard = () => {
       </CRow>
 
 
-
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
@@ -244,26 +242,26 @@ const Dashboard = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                    <CTableRow v-for="item in tableItems" key={1}>
-                      <CTableDataCell className="text-center">
-                        6
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        5
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        4
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        3
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        2
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        1
-                      </CTableDataCell>
-                    </CTableRow>
+                  <CTableRow v-for="item in tableItems" key={1}>
+                    <CTableDataCell className="text-center">
+                      6
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      5
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      4
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      3
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      2
+                    </CTableDataCell>
+                    <CTableDataCell>
+                      1
+                    </CTableDataCell>
+                  </CTableRow>
 
                 </CTableBody>
               </CTable>
@@ -273,9 +271,8 @@ const Dashboard = () => {
       </CRow>
 
 
-
     </>
   );
-}
+};
 
-export default Dashboard
+export default Dashboard;
