@@ -1,8 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const CLIENT_PATH = "http://localhost:3000"
-export const SERVER_PATH = "http://localhost:7777"
+export const CLIENT_PATH = "http://localhost:3000";
+export const SERVER_PATH = "http://localhost:7777";
 
 // export const SERVER_PATH = "http://192.168.255.181:7777";
 // export const CLIENT_PATH = "http://192.168.255.38:3000";
@@ -120,7 +120,7 @@ class ParkingService {
   }
 
   getPoint() {
-    return this.addHeader(httpMethod.PUT, "/api/users");
+    return this.addHeader(httpMethod.PATCH, "/api/users");
   }
 
 
@@ -168,6 +168,13 @@ class ParkingService {
     return axios.post(SERVER_PATH + "/api/users/login", {
       "email": email,
       "password": password
+    });
+  }
+
+  /** 회원 정보 수정 */
+  editUserData(tel, intro, city) {
+    return this.addHeader(httpMethod.PUT, "/api/users", {
+      // write code here !!
     });
   }
 
