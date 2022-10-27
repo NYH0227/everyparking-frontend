@@ -10,20 +10,37 @@ import moment from "moment";
 
 const DashMyUsing = (x) => {
 
-  const timeFormat = (time) => {
-    return time[2] + "일 " +time[3]+"시"
-  }
 
+  const RT = (time) => {
+    return moment(time).subtract(1, "months").subtract(12, "hours")
+  }
   const phoneFormat = (value) => {
     if(value) {
       value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
     }
     return value
   }
-  const leftTime = (startAt,endAt) => {
-    let now = moment()
-    let start = moment(startAt).subtract(1, "months")
-    let end = moment(endAt).subtract(1, "months")
+
+  const diffTime = (startAt,endAt) => {
+
+    const start = RT(startAt)
+    const end = RT(endAt)
+
+    console.log("start",start.toISOString())
+    console.log("start2",start)
+    console.log("end",end.toISOString())
+    console.log("end2",end)
+    console.log("result",Number(end.diff(start, "hours")))
+
+    return 10;
+
+    // return Number(end.diff(start, "hours"));
+  }
+
+  const leftTimeView = (startAt,endAt) => {
+    const now = moment()
+    const start = RT(startAt)
+    const end = RT(endAt)
 
     if(now.isBefore(start)){
       return (
@@ -39,13 +56,13 @@ const DashMyUsing = (x) => {
       <CTableDataCell>
         <div className="clearfix">
           <div className="float-start">
-            <strong>50%</strong>
-          </div>
-          <div className="float-start">
             <strong className="text-medium-emphasis">
               {start.format("DD일 HH시")} ~ {end.format("DD일 HH시")}
               {/*{leftTime(end.diff(now, "hour"))}시간 남음*/}
             </strong>
+          </div>
+          <div className="float-end">
+            <strong>50%</strong>
           </div>
         </div>
         <CProgress thin color="success" value="50" />
@@ -90,10 +107,10 @@ const DashMyUsing = (x) => {
                       </div>
                     </CTableDataCell>
 
-                    {leftTime(item.startAt,item.endAt)}
+                    {leftTimeView(item.startAt,item.endAt)}
 
                     <CTableDataCell className="text-center">
-                      {Number(moment(item.endAt).diff(moment(item.startAt), "hours")) * item.cost}원
+                      {diffTime(item.startAt,item.endAt)* item.cost}원
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.renterName}</div>
