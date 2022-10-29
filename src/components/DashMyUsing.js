@@ -18,6 +18,14 @@ const DashMyUsing = (x) => {
     return Number(end.diff(start, "hours"));
   }
 
+  const perTime = (startAt,endAt) => {
+    const now = moment().add(1, "M")
+    const start = moment(startAt)
+    const end = moment(endAt)
+
+    return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
+  }
+
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
     const now = moment().add(1, "M")
     const borrowStart = moment(borrowStartAt)
@@ -29,10 +37,6 @@ const DashMyUsing = (x) => {
       return (
         <CTableDataCell>
           <div className="clearfix">
-            {/*시간 단위로 나누기*/}
-            {/*{console.log("지금",now)}*/}
-            {/*{console.log("B시간",borrowStart)}*/}
-            {/*{console.log("R시간",rentStart)}*/}
             <strong>{borrowStart.diff(now, "hour")}시간 후 시작</strong>
           </div>
         </CTableDataCell>
@@ -49,12 +53,11 @@ const DashMyUsing = (x) => {
           </div>
           <div className="float-end">
             <strong>
-              {console.log(rentEnd.diff(now))}
-              {100-rentEnd.diff(now)/rentEnd.diff(rentStart)*100}%
+              {Math.floor(perTime(rentStart,rentEnd))}%
             </strong>
           </div>
         </div>
-        <CProgress thin color="success" value="50" />
+        <CProgress thin color="success" value={Math.floor(perTime(rentStart,rentEnd))} />
       </CTableDataCell>
     )
   }

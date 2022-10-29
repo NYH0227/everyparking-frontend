@@ -4,17 +4,19 @@ import {
   CProgress, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 import { MDBBadge } from "mdb-react-ui-kit";
+import moment from "moment";
 
 
 
 
 const DashUserUsing = (x) => {
 
-  const test = (startAt,endAt) => {
-    let now = new Date()
-    let start = new Date(startAt[0],startAt[1],startAt[2],startAt[3],startAt[4],startAt[5]);
-    let end = new Date(endAt[0],endAt[1],endAt[2],endAt[3],endAt[4],endAt[5]);
-    let d = (end.getTime() - start.getTime()) / (1000*60*60);
+  const perTime = (startAt,endAt) => {
+    const now = moment().add(1, "M")
+    const start = moment(startAt)
+    const end = moment(endAt)
+
+    return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
   }
 
   const timeFormat = (time) => {
@@ -22,11 +24,7 @@ const DashUserUsing = (x) => {
   }
 
   const phoneFormat = (value) => {
-    if(value) {
-      value = value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
-      return value
-    }
-    return value
+    return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
   }
 
   return (
@@ -71,7 +69,7 @@ const DashUserUsing = (x) => {
                     <CTableDataCell>
                       <div className="clearfix">
                         <div className="float-start">
-                          <strong>50%</strong>
+                          <strong>{perTime(item.startAt,item.endAt)>=100 ? "예약중": 100-perTime(item.startAt,item.endAt)+"%"}</strong>
                         </div>
                         <div className="float-end">
                           <small className="text-medium-emphasis">
@@ -79,7 +77,7 @@ const DashUserUsing = (x) => {
                           </small>
                         </div>
                       </div>
-                      <CProgress thin color="success" value="50" />
+                      <CProgress thin color="success" value={perTime(item.startAt,item.endAt)>=100 ? "0": 100-perTime(item.startAt,item.endAt)} />
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.borrowerName}</div>
@@ -120,26 +118,11 @@ const DashUserUsing = (x) => {
                           {item.addr.split(":")[1]}
                         </div>
                       </CTableDataCell>
-
-                      <CTableDataCell>
-                      </CTableDataCell>
-
-                      {item.placeStatus === "inUse" ?
-                        <CTableDataCell>
-                          <div>아무개</div>
-                          <div className="small text-medium-emphasis">
-                            <strong>010-2222-3333</strong>
-                          </div>
-                          <div className="small text-medium-emphasis">
-                            아우디(12나1234)
-                          </div>
-                        </CTableDataCell>
-                        : <CTableDataCell></CTableDataCell>
-                      }
+                      <CTableDataCell> </CTableDataCell>
+                      <CTableDataCell> </CTableDataCell>
                       <CTableDataCell>
                         {item.placeStatus === "waiting" ? <MDBBadge color="success" pill>등록가능</MDBBadge> : ""}
                         {item.placeStatus === "pending" ? <MDBBadge color="warning" pill>등록중</MDBBadge> : ""}
-                        {item.placeStatus === "inUse" ? <MDBBadge color="danger" pill>이용중</MDBBadge> : ""}
                       </CTableDataCell>
                     </CTableRow>
                   );
