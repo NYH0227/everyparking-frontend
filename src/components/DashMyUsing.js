@@ -53,6 +53,8 @@ const DashMyUsing = (x) => {
           </div>
           <div className="float-end">
             <strong>
+              {console.log("시작시간",moment(rentStart))}
+              {console.log("종료시간",moment(rentEnd))}
               {Math.floor(perTime(rentStart,rentEnd))}%
             </strong>
           </div>

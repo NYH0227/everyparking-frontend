@@ -45,7 +45,7 @@ class ParkingService {
 
   addHeader(method, path, data) {
     if (localStorage.getItem("jwt") === null || undefined) {
-      Swal.Toast.fire("세션이 만료되었습니다.", "", "info");
+      Swal.fire("세션이 만료되었습니다.", "", "info");
       // eslint-disable-next-line no-restricted-globals
       location.href = CLIENT_PATH + "/signin";
     }
