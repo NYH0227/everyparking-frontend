@@ -1,6 +1,6 @@
 import React from "react";
 import CIcon from '@coreui/icons-react'
-import { cilSpeedometer, cilStar } from '@coreui/icons'
+import { cilSpeedometer, cilStar,cilChatBubble } from '@coreui/icons'
 import { CNavItem, CNavTitle } from '@coreui/react'
 
 
@@ -51,6 +51,17 @@ const _nav = ([
   {
     component: CNavTitle,
     name: "계정",
+  },
+  {
+    component: CNavItem,
+    name: '채팅',
+    to: '/chatting',
+    icon: <CIcon icon={cilChatBubble} customClassName="nav-icon" />,
+    badge: {
+      color: 'danger',
+      text: '99',
+      shape : 'rounded-pill',
+    },
   },
   {
     component: CNavItem,
