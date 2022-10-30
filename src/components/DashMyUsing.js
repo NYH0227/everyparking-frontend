@@ -4,34 +4,24 @@ import {
   CProgress, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 import moment from "moment";
-
+import Common from "../common/Common"
 
 const DashMyUsing = (x) => {
 
-  const phoneFormat = (value) => {
-    return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
-  }
-
-  const diffTime = (startAt,endAt) => {
-    const start = moment(startAt)
-    const end = moment(endAt)
-    return Number(end.diff(start, "hours"));
-  }
-
   const perTime = (startAt,endAt) => {
     const now = moment().add(1, "M")
-    const start = moment(startAt)
-    const end = moment(endAt)
+    const start = Common.setMoment(startAt)
+    const end = Common.setMoment(endAt)
 
     return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
   }
 
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
     const now = moment().add(1, "M")
-    const borrowStart = moment(borrowStartAt)
-    const borrowEnd = moment(borrowEndAt)
-    const rentStart = moment(rentStartAt)
-    const rentEnd = moment(rentEndAt)
+    const borrowStart = Common.setMoment(borrowStartAt)
+    const borrowEnd = Common.setMoment(borrowEndAt)
+    const rentStart = Common.setMoment(rentStartAt)
+    const rentEnd = Common.setMoment(rentEndAt)
 
     if(now.isBefore(borrowStart)){
       return (
@@ -53,8 +43,6 @@ const DashMyUsing = (x) => {
           </div>
           <div className="float-end">
             <strong>
-              {console.log("시작시간",moment(rentStart))}
-              {console.log("종료시간",moment(rentEnd))}
               {Math.floor(perTime(rentStart,rentEnd))}%
             </strong>
           </div>
@@ -103,12 +91,12 @@ const DashMyUsing = (x) => {
                     {leftTimeView(item.borrowStartAt,item.borrowEndAt,item.rentStartAt,item.rentEndAt)}
 
                     <CTableDataCell className="text-center">
-                      {diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost}원
+                      {Common.moneyFormat(Common.diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost)}원
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.renterName}</div>
                       <div className="small text-medium-emphasis">
-                        {phoneFormat(item.renterTel)}
+                        {Common.phoneFormat(item.renterTel)}
                       </div>
                     </CTableDataCell>
                     <CTableDataCell>

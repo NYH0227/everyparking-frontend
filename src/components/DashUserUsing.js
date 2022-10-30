@@ -5,6 +5,7 @@ import {
 } from "@coreui/react";
 import { MDBBadge } from "mdb-react-ui-kit";
 import moment from "moment";
+import Common from "../common/Common"
 
 
 
@@ -13,18 +14,14 @@ const DashUserUsing = (x) => {
 
   const perTime = (startAt,endAt) => {
     const now = moment().add(1, "M")
-    const start = moment(startAt)
-    const end = moment(endAt)
+    const start = Common.setMoment(startAt)
+    const end = Common.setMoment(endAt)
 
     return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
   }
 
   const timeFormat = (time) => {
     return time[2] + "일 " +time[3]+"시"
-  }
-
-  const phoneFormat = (value) => {
-    return value.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3");
   }
 
   return (
@@ -82,7 +79,7 @@ const DashUserUsing = (x) => {
                     <CTableDataCell>
                       <div>{item.borrowerName}</div>
                       <div className="small text-medium-emphasis">
-                        <strong>{phoneFormat(item.borrowerTel)}</strong>
+                        <strong>{Common.phoneFormat(item.borrowerTel)}</strong>
                       </div>
                       <div className="small text-medium-emphasis">
                         {item.carModel + "(" + item.carNumber + ")"}

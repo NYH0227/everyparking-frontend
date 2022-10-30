@@ -8,6 +8,7 @@ import { MDBContainer, MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
 import CIcon from "@coreui/icons-react";
 import { cilCarAlt, cilLocationPin, cilMoney, cilScreenSmartphone, cilUser } from "@coreui/icons";
 import ParkingService from "../service/ParkingService";
+import Common from "../common/Common"
 
 
 
@@ -148,7 +149,7 @@ const DashMyInfo = (x) => {
 
                 <MDBListGroupItem className="d-flex justify-content-between align-items-center small">
                   <div>
-                    <CIcon icon={cilMoney} /><strong> 소지금 </strong> {myPoint === 0 ? x.point : myPoint}원
+                    <CIcon icon={cilMoney} /><strong> 소지금 </strong> {myPoint === 0 ? x.point : Common.moneyFormat(myPoint)}원
                   </div>
                   <CButton color="success" variant="outline" shape="rounded-pill" size="sm"
                            onClick={() => getPoint()}>충전</CButton>

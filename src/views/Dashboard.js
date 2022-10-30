@@ -7,6 +7,7 @@ import {
 } from "@coreui/react";
 
 import ParkingService from "../service/ParkingService";
+import Common from "../common/Common"
 import DashMyInfo from "../components/DashMyInfo";
 import DashMyUsing from "../components/DashMyUsing";
 import DashUserUsing from "../components/DashUserUsing";
@@ -19,7 +20,8 @@ const Dashboard = () => {
   const [userData,setUserData] = useState([]);
 
   const [myUsing,setMyUsing] = useState([]);
-  const [userUsing,setUserUsing] = useState([])
+  const [userUsing,setUserUsing] = useState([]);
+  const [myLog, setMyLog] = useState([]);
 
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const Dashboard = () => {
         setUserData(res.data.data  === undefined || null ? [] : res.data.data);
         setMyUsing(res.data.data.myUsing === undefined || null ? [] : res.data.data.myUsing);
         setUserUsing(res.data.data.userUsing === undefined || null ? [] : res.data.data.userUsing);
-
+        setMyLog(res.data.data.used === undefined || null ? [] : res.data.data.used);
       })
       .catch((err) => console.log(err))
   }, []);
@@ -42,7 +44,7 @@ const Dashboard = () => {
       <DashMyInfo myCars={myCars} email={userData.email} nickName={userData.nickname}
                   city={userData.city} tel={userData.tel} point={userData.point} introduce={userData.introduce} />
       <DashMyUsing myUsing={myUsing} />
-      <DashUserUsing userUsing={userUsing} places={myPlaces}/>
+      <DashUserUsing userUsing={userUsing} places={myPlaces} />
 
 
       <CRow>
@@ -60,19 +62,22 @@ const Dashboard = () => {
                     <CTableHeaderCell>금액</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                <CTableBody style={{ overflow: "scroll" }}>
-                  <CTableRow v-for="item in tableItems" key={1}>
-                    <CTableDataCell className="text-center">
-                      2022년 10월 16일 16시
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      나의 ( 장제로 161 ) 주소의 주차장을 <br/>
-                      ( 테스트 ) 사용자가 ( 10월 16일 16시 ~ 17일 18시 )까지 이용하였습니다.
-                    </CTableDataCell>
-                    <CTableDataCell>
-                      + 210000원
-                    </CTableDataCell>
-                  </CTableRow>
+                <CTableBody style={{overflow: "scroll" }}>
+                  {myLog.map((item, idx) => (
+                    <CTableRow v-for="item in tableItems" key={idx}>
+                      <CTableDataCell className="text-center">
+                        {Common.setMoment(item.createAt).subtract(1, "M").format("YYYY년 MM월 DD일 HH시")}
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        <strong>{item.renterName}</strong>님이 <strong>{item.borrowerName}</strong>님의 {item.addr.split(":")[0]} 주차장을 <br />
+                        ( <small>{Common.timeView(item.startAt, item.endAt)}</small> ) 까지 이용하셨습니다.
+                      </CTableDataCell>
+                      <CTableDataCell>
+                        {item.borrowerName === userData.nickname ? "+" : "-"}
+                        {Common.moneyFormat(Common.diffTime(item.startAt, item.endAt) * item.cost)}
+                      </CTableDataCell>
+                    </CTableRow>
+                  ))}
                 </CTableBody>
               </CTable>
             </CCardBody>
