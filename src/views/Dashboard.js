@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import {
   CCard, CCardBody, CCardHeader, CCol,
-  CProgress, CRow, CTable, CTableBody, CTableDataCell,
+  CRow, CTable, CTableBody, CTableDataCell,
   CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 

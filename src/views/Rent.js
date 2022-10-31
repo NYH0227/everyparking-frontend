@@ -173,9 +173,8 @@ const Rent = () => {
                   <EndTimepicker />
                 </td>
                 <td>
-                  <CFormInput type="text" placeholder="1000" value={cost} onChange={(e) => {
-                    setCost(e.target.value);
-                  }} />
+                  <CFormInput type="text" placeholder="1000" value={cost} onChange={(e) => setCost(e.target.value)
+                  } />
                 </td>
                 <td>
                   <CFormInput type="text" placeholder="" value={placeSize} disabled onChange={(e) => {
