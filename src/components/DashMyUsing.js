@@ -17,11 +17,12 @@ const DashMyUsing = (x) => {
   }
 
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
-    const now = moment().add(1, "M")
+    const now = moment(new Date).add(2, "M")
     const borrowStart = Common.setMoment(borrowStartAt)
     const borrowEnd = Common.setMoment(borrowEndAt)
     const rentStart = Common.setMoment(rentStartAt)
     const rentEnd = Common.setMoment(rentEndAt)
+
 
     if(now.isBefore(borrowStart)){
       return (
@@ -38,7 +39,7 @@ const DashMyUsing = (x) => {
         <div className="clearfix">
           <div className="float-start">
             <strong className="text-medium-emphasis">
-              {borrowStart.format("DD일 HH시")} ~ {borrowEnd.format("DD일 HH시")}
+              {borrowStart.format("MM월 DD일 HH시")} ~ {borrowEnd.format("MM월 DD일 HH시")}
             </strong>
           </div>
           <div className="float-end">
@@ -88,6 +89,7 @@ const DashMyUsing = (x) => {
                         {item.placeAddr.split(":")[1]}
                       </div>
                     </CTableDataCell>
+
                     {leftTimeView(item.borrowStartAt,item.borrowEndAt,item.rentStartAt,item.rentEndAt)}
 
                     <CTableDataCell className="text-center">
