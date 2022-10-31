@@ -1,30 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CCard, CCardBody, CCardHeader, CCol,
   CProgress, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 import moment from "moment";
-import Common from "../common/Common"
+import Common from "../common/Common";
+import Modals from "./Modals";
 
 const DashMyUsing = (x) => {
 
-  const perTime = (startAt,endAt) => {
-    const now = moment().add(1, "M")
-    const start = Common.setMoment(startAt)
-    const end = Common.setMoment(endAt)
 
-    return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
-  }
+
+  const perTime = (startAt, endAt) => {
+    console.log("startAt: " + startAt);
+    console.log("endAt: " + endAt);
+
+    const now = moment().add(1, "M");
+    const start = Common.setMoment(startAt);
+    const end = Common.setMoment(endAt);
+
+    console.log("now: " + now);
+
+    let perTime = Math.floor(end.diff(now, "minutes") / end.diff(start, "minutes") * 100);
+    console.log("perTime: " + perTime);
+    return perTime;
+  };
+
 
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
-    const now = moment(new Date).add(2, "M")
-    const borrowStart = Common.setMoment(borrowStartAt)
-    const borrowEnd = Common.setMoment(borrowEndAt)
-    const rentStart = Common.setMoment(rentStartAt)
-    const rentEnd = Common.setMoment(rentEndAt)
+    const now = moment(new Date).add(2, "M");
+    const borrowStart = Common.setMoment(borrowStartAt);
+    const borrowEnd = Common.setMoment(borrowEndAt);
+    const rentStart = Common.setMoment(rentStartAt);
+    const rentEnd = Common.setMoment(rentEndAt);
 
 
-    if(now.isBefore(borrowStart)){
+    if (now.isBefore(borrowStart)) {
       return (
         <CTableDataCell>
           <div className="clearfix">
@@ -44,14 +55,14 @@ const DashMyUsing = (x) => {
           </div>
           <div className="float-end">
             <strong>
-              {Math.floor(perTime(rentStart,rentEnd))}%
+              {Math.floor(perTime(rentStart, rentEnd))}%
             </strong>
           </div>
         </div>
-        <CProgress thin color="success" value={Math.floor(perTime(rentStart,rentEnd))} />
+        <CProgress thin color="success" value={Math.floor(perTime(rentStart, rentEnd))} />
       </CTableDataCell>
-    )
-  }
+    );
+  };
 
   return (
     <CRow>
@@ -90,17 +101,16 @@ const DashMyUsing = (x) => {
                       </div>
                     </CTableDataCell>
 
-                    {leftTimeView(item.borrowStartAt,item.borrowEndAt,item.rentStartAt,item.rentEndAt)}
+                    {leftTimeView(item.borrowStartAt, item.borrowEndAt, item.rentStartAt, item.rentEndAt)}
 
                     <CTableDataCell className="text-center">
-                      {Common.moneyFormat(Common.diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost)}원
+                      {Common.moneyFormat(Common.diffTime(item.borrowStartAt, item.borrowEndAt) * item.cost)}원
                     </CTableDataCell>
+
                     <CTableDataCell>
-                      <div>{item.renterName}</div>
-                      <div className="small text-medium-emphasis">
-                        {Common.phoneFormat(item.renterTel)}
-                      </div>
+                      <Modals renterName={item.renterName}/>
                     </CTableDataCell>
+
                     <CTableDataCell>
                       <div className="small text-medium-emphasis">
                         {item.message}
@@ -115,6 +125,6 @@ const DashMyUsing = (x) => {
       </CCol>
     </CRow>
   );
-}
+};
 
 export default DashMyUsing;

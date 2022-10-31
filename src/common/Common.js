@@ -4,7 +4,10 @@ import moment from "moment";
 class Commom {
 
   setMoment(time) {
+    console.log("time: " + time)
     const value = moment();
+
+    console.log("time[0]: " + time[0])
 
     value.set('year', time[0]);
     value.set('month',time[1]);
