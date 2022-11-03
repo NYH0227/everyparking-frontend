@@ -54,17 +54,6 @@ const _nav = ([
   },
   {
     component: CNavItem,
-    name: '채팅',
-    to: '/chatting',
-    icon: <CIcon icon={cilChatBubble} customClassName="nav-icon" />,
-    badge: {
-      color: 'danger',
-      text: '99',
-      shape : 'rounded-pill',
-    },
-  },
-  {
-    component: CNavItem,
     name: '로그아웃',
     to: '/signout',
     icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
