@@ -4,24 +4,11 @@ import {
   CProgress, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow
 } from "@coreui/react";
 import { MDBBadge } from "mdb-react-ui-kit";
-import moment from "moment";
 import Common from "../common/Common"
 
 
 
 const DashUserUsing = (x) => {
-
-  const perTime = (startAt,endAt) => {
-    const now = moment().add(1, "M")
-    const start = Common.setMoment(startAt)
-    const end = Common.setMoment(endAt)
-
-    return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
-  }
-
-  const timeFormat = (time) => {
-    return time[2] + "일 " +time[3]+"시"
-  }
 
   return (
     <CRow>
@@ -64,16 +51,16 @@ const DashUserUsing = (x) => {
                     </CTableDataCell>
                     <CTableDataCell>
                       <div className="clearfix">
-                        <div className="float-start">
-                          <strong>{perTime(item.startAt,item.endAt)>=100 ? "예약중": 100-perTime(item.startAt,item.endAt)+"%"}</strong>
-                        </div>
                         <div className="float-end">
+                          <strong>{Common.timePer(item.startAt,item.endAt)>=100 ? "예약중": Common.timePer(item.startAt,item.endAt)+"%"}</strong>
+                        </div>
+                        <div className="float-start">
                           <small className="text-medium-emphasis">
-                            {timeFormat(item.startAt)} ~ {timeFormat(item.endAt)}
+                            {Common.timeRangeM(item.startAt, item.endAt)}
                           </small>
                         </div>
                       </div>
-                      <CProgress thin color="success" value={perTime(item.startAt,item.endAt)>=100 ? "0": 100-perTime(item.startAt,item.endAt)} />
+                      <CProgress thin color="success" value={Common.timePer(item.startAt,item.endAt)>=100 ? "0": Common.timePer(item.startAt,item.endAt)} />
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.borrowerName}</div>

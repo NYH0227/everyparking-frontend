@@ -8,21 +8,10 @@ import Common from "../common/Common"
 
 const DashMyUsing = (x) => {
 
-  const perTime = (startAt,endAt) => {
-    const now = moment().add(1, "M")
-    const start = Common.setMoment(startAt)
-    const end = Common.setMoment(endAt)
-
-    return Math.floor(end.diff(now, "minutes")/end.diff(start, "minutes")*100);
-  }
 
   const leftTimeView = (borrowStartAt, borrowEndAt, rentStartAt, rentEndAt) => {
     const now = moment(new Date).add(2, "M")
     const borrowStart = Common.setMoment(borrowStartAt)
-    const borrowEnd = Common.setMoment(borrowEndAt)
-    const rentStart = Common.setMoment(rentStartAt)
-    const rentEnd = Common.setMoment(rentEndAt)
-
 
     if(now.isBefore(borrowStart)){
       return (
@@ -39,16 +28,16 @@ const DashMyUsing = (x) => {
         <div className="clearfix">
           <div className="float-start">
             <strong className="text-medium-emphasis">
-              {borrowStart.format("MM월 DD일 HH시")} ~ {borrowEnd.format("MM월 DD일 HH시")}
+              {Common.timeRange(borrowStartAt,borrowEndAt)}
             </strong>
           </div>
           <div className="float-end">
             <strong>
-              {Math.floor(perTime(rentStart,rentEnd))}%
+              {Common.timePer(rentStartAt,rentEndAt)}%
             </strong>
           </div>
         </div>
-        <CProgress thin color="success" value={Math.floor(perTime(rentStart,rentEnd))} />
+        <CProgress thin color="success" value={Common.timePer(rentStartAt,rentEndAt)} />
       </CTableDataCell>
     )
   }
@@ -93,7 +82,7 @@ const DashMyUsing = (x) => {
                     {leftTimeView(item.borrowStartAt,item.borrowEndAt,item.rentStartAt,item.rentEndAt)}
 
                     <CTableDataCell className="text-center">
-                      {Common.moneyFormat(Common.diffTime(item.borrowStartAt,item.borrowEndAt) * item.cost)}원
+                      {item.allCost}원
                     </CTableDataCell>
                     <CTableDataCell>
                       <div>{item.renterName}</div>

@@ -16,7 +16,7 @@ import DashUserUsing from "../components/DashUserUsing";
 const Dashboard = () => {
 
   const [myCars, setMyCars] = useState([]);
-  const [myPlaces, setMyPlaces] = useState([])
+  const [myPlaces, setMyPlaces] = useState([]);
   const [userData,setUserData] = useState([]);
 
   const [myUsing,setMyUsing] = useState([]);
@@ -66,15 +66,15 @@ const Dashboard = () => {
                   {myLog.map((item, idx) => (
                     <CTableRow v-for="item in tableItems" key={idx}>
                       <CTableDataCell className="text-center">
-                        {Common.setMoment(item.createAt).subtract(1, "M").format("YYYY년 MM월 DD일 HH시")}
+                        {Common.timeFormat(item.createAt)}
                       </CTableDataCell>
                       <CTableDataCell>
                         <strong>{item.renterName}</strong>님이 <strong>{item.borrowerName}</strong>님의 {item.addr.split(":")[0]} 주차장을 <br />
-                        ( <small>{Common.timeView(item.startAt, item.endAt)}</small> ) 까지 이용하셨습니다.
+                        ( <small>{Common.timeRangeM(item.startAt, item.endAt)}</small> ) 까지 이용하셨습니다.
                       </CTableDataCell>
                       <CTableDataCell>
                         {item.borrowerName === userData.nickname ? "+" : "-"}
-                        {Common.moneyFormat(Common.diffTime(item.startAt, item.endAt) * item.cost)}
+                        {item.allCost}
                       </CTableDataCell>
                     </CTableRow>
                   ))}
