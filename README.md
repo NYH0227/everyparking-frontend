@@ -2,8 +2,8 @@
 
 <hr/>
 
-### [BE : ing9990](https://github.com/ing9990/EveryParking)
-### [FE : NYH0227](https://github.com/NYH0227/everyparking-frontend)
+### [BE-SpringBoot:ing9990](https://github.com/ing9990/EveryParking)
+
 <hr/>
 
 - ## 내 정보
